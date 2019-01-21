@@ -1,0 +1,127 @@
+/*
+ * at91-sama5d27_giantboard.dts - Device Tree file for Giant Board
+ *
+ *  Copyright (C) 2017 Microchip Corporation
+ *                     Wenyou Yang <wenyou.yang@microchip.com>
+ *
+ * This file is dual-licensed: you can use it either under the terms
+ * of the GPL or the X11 license, at your option. Note that this dual
+ * licensing only applies to this file, and not this project as a
+ * whole.
+ *
+ *  a) This file is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation; either version 2 of the
+ *     License, or (at your option) any later version.
+ *
+ *     This file is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ * Or, alternatively,
+ *
+ *  b) Permission is hereby granted, free of charge, to any person
+ *     obtaining a copy of this software and associated documentation
+ *     files (the "Software"), to deal in the Software without
+ *     restriction, including without limitation the rights to use,
+ *     copy, modify, merge, publish, distribute, sublicense, and/or
+ *     sell copies of the Software, and to permit persons to whom the
+ *     Software is furnished to do so, subject to the following
+ *     conditions:
+ *
+ *     The above copyright notice and this permission notice shall be
+ *     included in all copies or substantial portions of the Software.
+ *
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *     OTHER DEALINGS IN THE SOFTWARE.
+ */
+/dts-v1/;
+#include "sama5d27_giantboard.dtsi"
+
+/ {
+	model = "Giant Board";
+	compatible = "atmel,sama5d27-som1-ek", "atmel,sama5d2", "atmel,sama5";
+
+	chosen {
+		u-boot,dm-pre-reloc;
+		stdout-path = &uart1;
+	};
+
+	ahb {
+		usb1: ohci@00400000 {
+			num-ports = <3>;
+			atmel,vbus-gpio = <&pioA 42 0>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_usb_default>;
+			status = "okay";
+		};
+
+		usb2: ehci@00500000 {
+			status = "okay";
+		};
+
+		sdmmc1: sdio-host@b0000000 {
+			bus-width = <4>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_sdmmc1_cmd_dat_default &pinctrl_sdmmc1_ck_cd_default>;
+			status = "okay"; /* conflict with qspi0 */
+			u-boot,dm-pre-reloc;
+		};
+
+		apb {
+
+			uart1: serial@f8020000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_uart1_default>;
+				status = "okay";
+				u-boot,dm-pre-reloc;
+			};
+
+			pioA: gpio@fc038000 {
+				pinctrl {
+
+					pinctrl_sdmmc1_cmd_dat_default: sdmmc1_cmd_dat_default {
+						pinmux = <PIN_PA28__SDMMC1_CMD>,
+							 <PIN_PA18__SDMMC1_DAT0>,
+							 <PIN_PA19__SDMMC1_DAT1>,
+							 <PIN_PA20__SDMMC1_DAT2>,
+							 <PIN_PA21__SDMMC1_DAT3>;
+						bias-pull-up;
+						u-boot,dm-pre-reloc;
+					};
+
+					pinctrl_sdmmc1_ck_cd_default: sdmmc1_ck_cd_default {
+						pinmux = <PIN_PA22__SDMMC1_CK>,
+							 <PIN_PA30__SDMMC1_CD>;
+						bias-disable;
+						u-boot,dm-pre-reloc;
+					};
+
+					pinctrl_uart1_default: uart1_default {
+						pinmux = <PIN_PD2__URXD1>,
+							 <PIN_PD3__UTXD1>;
+						bias-disable;
+						u-boot,dm-pre-reloc;
+					};
+
+					pinctrl_usb_default: usb_default {
+						pinmux = <PIN_PB10__GPIO>;
+						bias-disable;
+					};
+
+					pinctrl_usba_vbus: usba_vbus {
+						pinmux = <PIN_PA31__GPIO>;
+						bias-disable;
+					};
+				};
+			};
+		};
+	};
+};
