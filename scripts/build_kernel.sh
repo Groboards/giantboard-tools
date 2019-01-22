@@ -7,14 +7,17 @@ patch_dir="$(pwd)/patches/kernel"
 modules_dir="${output_dir}/modules"
 build_dir="${output_dir}/build"
 linux_dir="${build_dir}/linux"
+images_dir="${output_dir}/images"
 
 # since we call these programs often, make calling them simpler
 cross_make="make -C ${linux_dir} ARCH=arm CROSS_COMPILE=${CC}"
 
+# TODO: make these user-specifiable defaults
 patches=""
-release="v5.0-rc2"
+release="v5.0-rc3"
 
-mkdir -p ${build_dir}
+mkdir -p "${build_dir}"
+mkdir -p "${images_dir}"
 
 # function to process script arguments and set appropriate variables
 process_options()
@@ -56,6 +59,7 @@ process_options "$@"
 
 if [ ! -d "${linux_dir}" ]; then
 	echo "downloading lastest kernel from github.."
+	# TODO: allow cloning of a single depth/release
 	git -C ${build_dir} clone https://github.com/torvalds/linux.git
 	# git -C ${build_dir} clone --depth=1 --branch ${release} https://github.com/torvalds/linux.git
 fi
@@ -71,6 +75,9 @@ fi
 
 # check if patches_applied is empty or not equal to our current list of patches
 if [ -z "${patches_applied}" ] || [ "${patches_applied}" != "${patches[@]}" ]; then
+	# if we are applying different patchsets, we need a clean base
+	# reset the kernel to the specified release
+	git -C ${linux_dir} checkout ${release}
 	# These patches are currently applied always applied.
 	# TODO: move these into patch files and add them as the "default" patchset.
 	# This will allow someone to turn off the patches easily once they get mainlined.
@@ -120,20 +127,28 @@ fi
 echo "preparing kernel.."
 echo "cross_make: ${cross_make}"
 ${cross_make} distclean
+
+# only call with defconfig if a config file doesn't exist already
 if [ ! -f "${linux_dir}/.config" ]; then
 	${cross_make} sama5_defconfig
 fi
 ${cross_make} menuconfig
+
+# here we are grabbing the kernel version and release information from kbuild
 built_version="$(${cross_make} --no-print-directory -s kernelversion 2>/dev/null)"
 built_release="$(${cross_make} --no-print-directory -s kernelrelease 2>/dev/null)"
-echo "version: $version"
-echo "release: $release"
+
 ${cross_make}
 ${cross_make} dtbs
 ${cross_make} modules
 ${cross_make} modules_install INSTALL_MOD_PATH="${modules_dir}"
 echo "done building.."
 echo "preparing tarball"
-tar -czf "${output_dir}/modules-${built_version}.tar.gz" -C "${modules_dir}" .
-ls -hal "${output_dir}/modules-${built_version}.tar.gz"
+tar -czf "${images_dir}/modules-${built_version}.tar.gz" -C "${modules_dir}" .
+ls -hal "${images_dir}/modules-${built_version}.tar.gz"
+echo "copying kernel files"
+
+# copy the kernel zImage and giantboard dtb to our images directory
+cp ${linux_dir}/arch/arm/boot/zImage ${images_dir}/
+cp ${linux_dir}/arch/arm/boot/dts/at91-sama5d27_giantboard.dtb ${images_dir}/
 echo "complete!"
