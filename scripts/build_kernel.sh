@@ -1,15 +1,18 @@
 #!/bin/bash -e
 CC="$(pwd)/tools/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-"
 
+# directory variables for easier maintainability
 output_dir="$(pwd)/output"
+patch_dir="$(pwd)/patches/kernel"
+modules_dir="${output_dir}/modules"
 build_dir="${output_dir}/build"
 linux_dir="${build_dir}/linux"
-modules_dir="${output_dir}/modules"
-release="v5.0-rc2"
 
+# since we call these programs often, make calling them simpler
 cross_make="make -C ${linux_dir} ARCH=arm CROSS_COMPILE=${CC}"
 
 patches=""
+release="v5.0-rc2"
 
 mkdir -p ${build_dir}
 
