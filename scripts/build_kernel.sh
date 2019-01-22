@@ -16,18 +16,104 @@ release="v5.0-rc2"
 
 mkdir -p ${build_dir}
 
+# function to process script arguments and set appropriate variables
+process_options()
+{
+	#
+	# supported options:
+	#   -p, --patches
+	#     Specify patch sets to apply to the kernel. Patch sets exist in
+	#     the directory patches/kernel/[patchset name]/
+	#
+	#     Each directory can contain a set of .patch files that will be
+	#     applied. They may also contain a '.external-patches' file, which
+	#     can be used for downloading them and applying them. The
+	#     '.external-patches' file is considered a development feature and
+	#     will be ignored by git.
+	#
+        local options=$(getopt -o p: --long patches: -- "$@")
+        [ $? -eq 0 ] || { 
+            echo "Incorrect options provided"
+            exit 1
+        }   
+                                                                                                                                                                            
+        eval set -- "$options"
+        while true; do
+                case "$1" in
+                        -p|--patches)
+                                patches="$2"
+				shift
+                                ;;  
+                        --) 
+                                shift
+                                break
+                                ;;  
+                esac
+                shift
+        done
+}
+process_options "$@"
+
 if [ ! -d "${linux_dir}" ]; then
 	echo "downloading lastest kernel from github.."
 	git -C ${build_dir} clone https://github.com/torvalds/linux.git
 	# git -C ${build_dir} clone --depth=1 --branch ${release} https://github.com/torvalds/linux.git
 fi
 
-if [ ! -f "${output_dir}/.patches_applied" ]; then
+# check if patches have already been applied, if so, get list of patchsets
+if [ -f "${output_dir}/.patches_applied" ]; then
+	patches_applied=$(cat "${output_dir}/.patches_applied")
+	echo "${patches_applied}"
+else
+	echo "No patches"
+	patches_applied="none"
+fi
+
+# check if patches_applied is empty or not equal to our current list of patches
+if [ -z "${patches_applied}" ] || [ "${patches_applied}" != "${patches[@]}" ]; then
+	# These patches are currently applied always applied.
+	# TODO: move these into patch files and add them as the "default" patchset.
+	# This will allow someone to turn off the patches easily once they get mainlined.
 	echo "applying patches.."
 	cp patches/kernel/at91-sama5d27_giantboard.dtsi ${linux_dir}/arch/arm/boot/dts/
 	cp patches/kernel/at91-sama5d27_giantboard.dts ${linux_dir}/arch/arm/boot/dts/
 	sed -i '50i at91-sama5d27_giantboard.dtb \\' ${linux_dir}/arch/arm/boot/dts/Makefile
-	touch "${output_dir}/.patches_applied"
+
+	# convert patches variable from comma-separated list of patches to an array
+	patches=(${patches//,/ })
+
+	# loop through specified patchsets
+        for patchset in "${patches[@]}"; do
+		# if patchset directory exists, we can apply them
+		current_patch_dir="${patch_dir}/${patchset}"
+		if [ -d "${current_patch_dir}" ]; then
+		        echo "Applying patchset ${patchset}"
+
+			# first, check for existence of '.external-patches' and apply that
+			if [ -f "${current_patch_dir}/.external-patches" ]; then
+				#
+				echo "Using ${current_patch_dir}/.external-patches"
+				while IFS='' read -r patch_url; do
+					if [ ! -z "${patch_url}" ]; then
+						curl "${patch_url}" | git -C "${linux_dir}" am
+					fi
+				done < "${current_patch_dir}/.external-patches"
+			else
+				# if '.external-patches' does not exist, apply all .patch files
+				for patchfile in "${current_patch_dir}"/*.patch; do
+					echo "Patchfile: ${patchfile}"
+					git -C "${linux_dir}" am < "${patchfile}"
+				done
+			fi
+		else
+			# patchset directory nonexistent. Error out
+			echo "Error: No patchset found: ${patchset}"
+			exit 1
+		fi
+        done
+        echo "Patches to apply: ${patches[@]}"
+
+	echo "${patches[@]}" > "${output_dir}/.patches_applied"
 	
 fi
 
