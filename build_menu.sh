@@ -6,9 +6,7 @@ echo "2: Build at91bootstrap"
 echo "3: Build u-boot"
 echo "4: Build kernel"
 echo "5: Build debian rootfs"
-echo "6: Rebuild at91bootstrap"
-echo "7: Rebuild u-boot"
-echo "8: Rebuild kernel"
+echo "6: Make bootable device image"
 	
 setup_env () {
 	chmod +x scripts/setup_env.sh
