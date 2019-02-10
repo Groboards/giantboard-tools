@@ -42,26 +42,32 @@ read -p "Enter selection [1-6] > " option
 
 case $option in
 	1)
+		clear
 		echo "Setting up build enviroment.."
 		setup_env
 		;;
 	2)
+		clear
 		echo "Setting up at91bootstrap.."
 		build_at91bootstrap
 		;;
 	3)
+		clear
 		echo "Preparing to build u-boot.."
 		build_uboot
 		;;
 	4)
+		clear
 		echo "Preparing to build kernel.."
 		build_kernel
 		;;
 	5) 
+		clear
 		echo "Preparing to build rootfs.."
 		build_debianrootfs
 		;;
 	6) 
+		clear
 		echo "Preparing to make image.."
 		make_image
 		;;
