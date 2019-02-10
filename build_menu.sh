@@ -13,7 +13,7 @@ setup_env () {
 	chmod +x scripts/build_at91bootstrap.sh
 	chmod +x scripts/build_u-boot.sh
 	chmod +x scripts/build_kernel.sh
-	chmod +x scripts/build_debianrootfs.sh
+	chmod +x scripts/build_debian-rootfs.sh
 	chmod +x scripts/make-image.sh
 	sh scripts/setup_env.sh
 }
