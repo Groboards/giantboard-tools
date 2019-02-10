@@ -58,7 +58,7 @@ process_options()
 process_options "$@"
 
 if [ ! -d "${linux_dir}" ]; then
-	echo "downloading lastest kernel from github.."
+	echo "downloading latest kernel from github.."
 	# TODO: allow cloning of a single depth/release
 	git -C ${build_dir} clone https://github.com/torvalds/linux.git
 	# git -C ${build_dir} clone --depth=1 --branch ${release} https://github.com/torvalds/linux.git
