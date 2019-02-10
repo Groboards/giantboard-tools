@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "exporting compilering.."
 export CC=`pwd`/tools/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-

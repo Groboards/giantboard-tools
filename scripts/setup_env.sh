@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Getting compiler.."
 wget -c https://releases.linaro.org/components/toolchain/binaries/6.4-2018.05/arm-linux-gnueabihf/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf.tar.xz

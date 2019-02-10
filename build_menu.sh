@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 clear
 echo "Build Options:"
 echo "1: Setup Build Environment.(Run on first setup.)"
@@ -19,23 +19,23 @@ setup_env () {
 }
 
 build_at91bootstrap () {
-	sh scripts/build_at91bootstrap.sh
+	scripts/build_at91bootstrap.sh
 }
 
 build_uboot () {
-	sh scripts/build_u-boot.sh
+	scripts/build_u-boot.sh
 }
 
 build_kernel () {
-	sh scripts/build_kernel.sh
+	scripts/build_kernel.sh
 }
 
 build_debianrootfs () {
-	sh scripts/build_debian-rootfs.sh
+	scripts/build_debian-rootfs.sh
 }
 
 make_image () {
-	sh scripts/make-image.sh
+	scripts/make-image.sh
 }
 
 read -p "Enter selection [1-6] > " option
