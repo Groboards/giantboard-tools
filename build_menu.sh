@@ -16,6 +16,7 @@ setup_env () {
 	chmod +x scripts/build_u-boot.sh
 	chmod +x scripts/build_kernel.sh
 	chmod +x scripts/build_debianrootfs.sh
+	chmod +x scripts/make-image.sh
 	sh scripts/setup_env.sh
 }
 
@@ -35,7 +36,11 @@ build_debianrootfs () {
 	sh scripts/build_debian-rootfs.sh
 }
 
-read -p "Enter selection [1-5] > " option
+make_image () {
+	sh scripts/make-image.sh
+}
+
+read -p "Enter selection [1-6] > " option
 
 case $option in
 	1)
@@ -57,6 +62,10 @@ case $option in
 	5) 
 		echo "Preparing to build rootfs.."
 		build_debianrootfs
+		;;
+	6) 
+		echo "Preparing to make image.."
+		make_image
 		;;
 	*)
 		echo "No Option Selected, exiting.."
