@@ -138,8 +138,9 @@ ${cross_make} menuconfig
 built_version="$(${cross_make} --no-print-directory -s kernelversion 2>/dev/null)"
 built_release="$(${cross_make} --no-print-directory -s kernelrelease 2>/dev/null)"
 
+
 ${cross_make}
-${cross_make} dtbs
+DTC_FLAGS="-@" ${cross_make} dtbs
 ${cross_make} modules
 ${cross_make} modules_install INSTALL_MOD_PATH="${modules_dir}"
 echo "done building.."
