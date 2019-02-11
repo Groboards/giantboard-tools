@@ -84,6 +84,7 @@ if [ -z "${patches_applied}" ] || [ "${patches_applied}" != "${patches[@]}" ]; t
 	echo "applying patches.."
 	cp patches/kernel/at91-sama5d27_giantboard.dtsi ${linux_dir}/arch/arm/boot/dts/
 	cp patches/kernel/at91-sama5d27_giantboard.dts ${linux_dir}/arch/arm/boot/dts/
+	cp patches/kernel/giantboard_defconfig ${linux_dir}/arch/arm/configs
 	sed -i '50i at91-sama5d27_giantboard.dtb \\' ${linux_dir}/arch/arm/boot/dts/Makefile
 
 	# convert patches variable from comma-separated list of patches to an array
@@ -130,7 +131,7 @@ ${cross_make} distclean
 
 # only call with defconfig if a config file doesn't exist already
 if [ ! -f "${linux_dir}/.config" ]; then
-	${cross_make} sama5_defconfig
+	${cross_make} giantboard_defconfig
 fi
 ${cross_make} menuconfig
 
