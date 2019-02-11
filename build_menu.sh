@@ -17,7 +17,7 @@ setup_env () {
 	chmod +x scripts/build_debian-rootfs.sh
 	chmod +x scripts/build_overlays.sh
 	chmod +x scripts/make-image.sh
-	sh scripts/setup_env.sh
+	scripts/setup_env.sh
 }
 
 build_at91bootstrap () {
