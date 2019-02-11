@@ -84,14 +84,8 @@
 			spi0: spi@f8000000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&pinctrl_spi0_default>;
-				cs-gpios = <&pioA PIN_PB1 0>, <0>, <0>, <0>;
-				status = "okay";
-
-				spidev@0 {
-					compatible = "linux,spidev";
-					spi-max-frequency = <24000000>;
-					reg = <0>;
-				};
+				cs-gpios = <&pioA PIN_PB1 0>, <&pioA PIN_PB7 0>, <&pioA PIN_PB3 0>, <0>;
+				status = "disabled";
 			};
 
 			uart1: serial@f8020000 {
@@ -203,6 +197,13 @@
 					};
 				};
 			};
+			
+			adc: adc@fc030000 {
+				vddana-supply = <&vddana>;
+				vref-supply = <&advref>;
+
+				status = "okay";
+			};
 
 			pinctrl@fc038000 {
 
@@ -282,5 +283,29 @@
 			gpios = <&pioA PIN_PA6 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "mmc0";
 		};
+	};
+	
+	vddana: fixed-regulator-vddana {
+		compatible = "regulator-fixed";
+
+		regulator-name = "VDDANA";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vdd_3v3_reg>;
+		status = "okay";
+	};
+
+	advref: fixed-regulator-advref {
+		compatible = "regulator-fixed";
+
+		regulator-name = "advref";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vddana>;
+		status = "okay";
 	};
 };
