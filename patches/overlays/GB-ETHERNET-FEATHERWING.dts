@@ -1,0 +1,34 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			w5500_pins: pinmux_w5500_pins {
+				pinmux = <127 3 4>;
+				bias-pull-up;
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&spi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			w5500: ethernet@1 {
+				compatible = "wiznet,w5500";
+				pinctrl-names = "default";
+				pinctrl-0 = <&w5500_pins>;
+				reg = <1>;
+				interrupt-parent = <&pioA>;
+				interrupts = <127 3 4>; 
+				spi-max-frequency = <32000000>;
+				local-mac-address = [ 00 00 00 00 00 00 ];
+			};
+		};
+	};
+};

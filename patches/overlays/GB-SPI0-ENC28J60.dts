@@ -1,0 +1,33 @@
+/dts-v1/;
+/plugin/;
+/ {
+	Compatible = "Giant Board";
+
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			eth1_pins: enc28j60_pins {
+				pinmux = <127 3 4>;
+				bias-pull-up;
+			};
+		};
+	};
+	
+	fragment@1 {
+		target = <&spi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			eth1: enc28j60@0 {
+				compatible = "microchip,enc28j60";
+				reg = <0>;
+				interrupt-parent = <&pioA>;
+				interrupts = <127 3 4>; 
+				spi-max-frequency = <24000000>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&eth1_pins>;
+			};
+		};
+	};
+};

@@ -6,7 +6,8 @@ echo "2: Build at91bootstrap"
 echo "3: Build u-boot"
 echo "4: Build kernel"
 echo "5: Build debian rootfs"
-echo "6: Make bootable device image"
+echo "6: Build device overlays"
+echo "7: Make bootable device image"
 	
 setup_env () {
 	chmod +x scripts/setup_env.sh
@@ -34,11 +35,15 @@ build_debianrootfs () {
 	scripts/build_debian-rootfs.sh
 }
 
+build_overlays () {
+	scripts/build_overlays.sh
+}
+
 make_image () {
 	scripts/make-image.sh
 }
 
-read -p "Enter selection [1-6] > " option
+read -p "Enter selection [1-7] > " option
 
 case $option in
 	1)
@@ -67,6 +72,11 @@ case $option in
 		build_debianrootfs
 		;;
 	6) 
+		clear
+		echo "Building overlays.."
+		build_overlays
+		;;
+	7) 
 		clear
 		echo "Preparing to make image.."
 		make_image

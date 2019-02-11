@@ -1,0 +1,49 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "Giant Board";
+
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			tftfeatherwing_pins: tftfeatherwing_pins {
+				pinmux = <37 0 0>,
+				<39 0 0>;
+				bias-disable;
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&spi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			tftfeatherwing: tftfeatherwing@0{
+				compatible = "ilitek,ili9341";
+				reg = <0>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&tftfeatherwing_pins>;
+
+				spi-max-frequency = <32000000>;
+				rotate = <90>;
+				fps = <40>;
+				bgr;
+				buswidth = <8>;
+				dc-gpios = <&pioA 39 0>;
+				reset-gpios = <&pioA 37 0>;
+				debug = <0>;
+			};
+
+		};
+	};
+
+	__overrides__ {
+		speed =   <&tftfeatherwing>,"spi-max-frequency:0";
+		rotate =  <&tftfeatherwing>,"rotate:0";
+		fps =     <&tftfeatherwing>,"fps:0";
+		debug =   <&tftfeatherwing>,"debug:0";
+	};
+};
