@@ -60,3 +60,5 @@ sync
 umount /media/boot
 umount /media/rootfs
 losetup -D
+
+echo "done making ${IMAGE_FILE}"
