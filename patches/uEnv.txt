@@ -1,0 +1,18 @@
+# Main Device Tree
+fdtfile=/dtbs/at91-sama5d27_giantboard.dtb
+
+# enable u-boot overlays
+#enable_uboot_overlays=1
+
+# Overlays loaded on boot
+#dtboverlay=
+#dtboverlay1=
+#dtboverlay2=
+#dtboverlay3=/overlays/GB-ETHERNET-FEATHERWING.dtbo
+#dtboverlay4=/overlays/GB-22LCD-FEATHERWING.dtbo
+  
+#console=ttyS0,115200
+#optargs=console=tty0
+  
+#mmcroot=/dev/mmcblk0p2 ro
+#mmcrootfstype=ext4 rootwait fixrtc
