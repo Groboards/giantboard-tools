@@ -4,7 +4,10 @@
 
 output_dir="$(pwd)/output"
 rootfs_dir="${output_dir}/rootfs"
-mkdir -p ${rootfs_dir}
+
+if [ ! -d "${rootfs_dir}" ]; then
+  mkdir -p ${rootfs_dir}
+fi
 
 debootstrap \
 		--include ca-certificates,python3-setuptools,python3-pip,sudo \

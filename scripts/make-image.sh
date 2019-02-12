@@ -42,7 +42,7 @@ mkdir -p /media/boot/
 mkdir -p /media/rootfs/
 
 # mount the dirs
-mount -o uid=1000,gid=1000 /dev/loop0p1 /media/boot/
+mount /dev/loop0p1 /media/boot/
 mount /dev/loop0p2 /media/rootfs/
 
 # copy at91 bootloader and u-boot
