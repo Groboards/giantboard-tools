@@ -2,6 +2,13 @@
 # restart script with root privileges if not already
 [ "$UID" -eq 0 ] || exec sudo "$0" "$@" ]
 
+output_dir="$(pwd)/output"
+at91boot_bin="${output_dir}/at91bootstrap"
+uboot_bin="${output_dir}/u-boot"
+images_dir="${output_dir}/images"
+modules_dir="${output_dir}/modules"
+rootfs_dir="${output_dir}/rootfs"
+
 IMAGE_FILE=giantboard.img
 SIZE_IN_MB=850
 
@@ -36,24 +43,24 @@ mount /dev/loop0p1 /media/boot/
 mount /dev/loop0p2 /media/rootfs/
 
 # copy at91 bootloader and u-boot
-cp -v ./at91bootstrap/binaries/sama5d27_som1_ek-sdcardboot-uboot-3.8.10.bin /media/boot/BOOT.BIN
-cp -v ./u-boot/u-boot.bin /media/boot/
+cp -v ${at91boot_bin}/BOOT.BIN /media/boot/BOOT.BIN
+cp -v ${uboot_bin}/u-boot.bin /media/boot/
 
 # copy the rootfs
-cp -av output/rootfs/ /media/
+cp -av ${rootfs_dir} /media/
 sync
 chown root:root /media/rootfs/
 chmod 755 /media/rootfs/
 
 # copy kernel image
-cp -v output/build/linux/arch/arm/boot/zImage /media/boot/zImage
+cp -v ${images_dir}/zImage /media/boot/zImage
 
 # copy kernel dtbs
 mkdir -p /media/boot/dtbs/
-cp -v output/build/linux/arch/arm/boot/dts/at91-sama5d27_giantboard.dtb /media/boot/dtbs/
+cp -v ${images_dir}/at91-sama5d27_giantboard.dtb /media/boot/dtbs/
 
 # copy kernel modules
-cp -av output/modules/lib/ /media/rootfs/
+cp -av ${modules_dir}/lib/ /media/rootfs/
 
 # sync and unmount
 sync
