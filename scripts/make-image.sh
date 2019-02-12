@@ -2,12 +2,15 @@
 # restart script with root privileges if not already
 [ "$UID" -eq 0 ] || exec sudo "$0" "$@" ]
 
+patch_dir="$(pwd)/patches/"
 output_dir="$(pwd)/output"
 at91boot_bin="${output_dir}/at91bootstrap"
 uboot_bin="${output_dir}/u-boot"
 images_dir="${output_dir}/images"
 modules_dir="${output_dir}/modules"
 rootfs_dir="${output_dir}/rootfs"
+overlays_dir="${output_dir}/overlays"
+
 
 IMAGE_FILE=giantboard.img
 SIZE_IN_MB=850
@@ -39,7 +42,7 @@ mkdir -p /media/boot/
 mkdir -p /media/rootfs/
 
 # mount the dirs
-mount /dev/loop0p1 /media/boot/
+mount -o uid=1000,gid=1000 /dev/loop0p1 /media/boot/
 mount /dev/loop0p2 /media/rootfs/
 
 # copy at91 bootloader and u-boot
@@ -61,6 +64,13 @@ cp -v ${images_dir}/at91-sama5d27_giantboard.dtb /media/boot/dtbs/
 
 # copy kernel modules
 cp -av ${modules_dir}/lib/ /media/rootfs/
+
+# copy overlays
+mkdir -p /media/boot/overlays/
+cp -av ${overlays_dir}/ /media/boot/
+
+# copy the default uEnv.txt
+cp -v ${patch_dir}/uEnv.txt /media/boot/
 
 # sync and unmount
 sync
