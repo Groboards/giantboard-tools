@@ -1,4 +1,8 @@
 #!/bin/bash
+
+output_dir="$(pwd)/output"
+build_dir="${output_dir}/build"
+
 clear
 echo "Build Options:"
 echo "1: Setup Build Environment.(Run on first setup.)"
@@ -17,6 +21,7 @@ setup_env () {
 	chmod +x scripts/build_debian-rootfs.sh
 	chmod +x scripts/build_overlays.sh
 	chmod +x scripts/make-image.sh
+	mkdir -p "${build_dir}"
 	scripts/setup_env.sh
 }
 
