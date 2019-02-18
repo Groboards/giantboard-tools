@@ -31,7 +31,7 @@ mkdir -p ${rootfs_dir}/dev/pts
 mount -t devpts devpts "${rootfs_dir}/dev/pts"
 
 chroot "${rootfs_dir}" /bin/bash -e chroot.sh
-
+rm ${rootfs_dir}/chroot.sh
 sync
 
 umount -fl "${rootfs_dir}/dev/pts"
