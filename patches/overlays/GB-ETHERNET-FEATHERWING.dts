@@ -18,6 +18,7 @@
 		__overlay__ {
 			#address-cells = <1>;
 			#size-cells = <0>;
+			cs-gpios = <0>, <&pioA 39 0>, <0>, <0>;
 			status = "okay";
 			w5500: ethernet@1 {
 				compatible = "wiznet,w5500";

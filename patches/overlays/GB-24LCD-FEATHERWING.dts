@@ -8,8 +8,8 @@
 		target = <&pioA>;
 		__overlay__ {
 			tftfeatherwing_pins: tftfeatherwing_pins {
-				pinmux = <37 0 0>,
-				<39 0 0>;
+				pinmux = <39 0 0>,
+						 <37 0 0>;
 				bias-disable;
 			};
 		};
@@ -20,13 +20,14 @@
 		__overlay__ {
 			#address-cells = <1>;
 			#size-cells = <0>;
+			cs-gpios = <&pioA 33 0>, <0>, <0>, <0>;
 			status = "okay";
 			tftfeatherwing: tftfeatherwing@0{
 				compatible = "ilitek,ili9341";
 				reg = <0>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&tftfeatherwing_pins>;
-
+				
 				spi-max-frequency = <32000000>;
 				rotate = <90>;
 				fps = <40>;
@@ -36,7 +37,6 @@
 				reset-gpios = <&pioA 37 0>;
 				debug = <0>;
 			};
-
 		};
 	};
 
