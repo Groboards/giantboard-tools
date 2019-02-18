@@ -9,7 +9,7 @@ overlays_dir="${output_dir}/overlays"
 mkdir -p "${overlays_dir}"
 
 # overlays array
-declare -a overlays=("GB-22LCD-FEATHERWING"
+declare -a overlays=("GB-24LCD-FEATHERWING"
 					"GB-ETHERNET-FEATHERWING"
 					"GB-SPI0-ENC28J60")
 
