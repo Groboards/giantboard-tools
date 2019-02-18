@@ -201,6 +201,7 @@ chmod +x libgpiod.sh
 
 # Install blinka
 pip3 install adafruit-blinka
+pip3 install adafruit-io
 
 # Install all the libs listed in the blinka_libs array
 for i in "${blinka_libs[@]}"
