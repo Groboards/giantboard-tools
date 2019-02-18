@@ -8,5 +8,5 @@ tar xf gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf.tar.xz -C tools
 rm gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf.tar.xz
 
 echo "Installing tools.."
-sudo apt install build-essential bc bison flex libncurses-dev libssl-dev debootstrap qemu-user-static device-tree-compiler -y
+sudo apt install build-essential bc bison flex libncurses-dev libssl-dev debootstrap qemu-user-static device-tree-compiler dosfstools -y
 echo "done.."
