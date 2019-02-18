@@ -9,7 +9,7 @@ fdtfile=/dtbs/at91-sama5d27_giantboard.dtb
 #dtboverlay1=
 #dtboverlay2=
 #dtboverlay3=/overlays/GB-ETHERNET-FEATHERWING.dtbo
-#dtboverlay4=/overlays/GB-22LCD-FEATHERWING.dtbo
+#dtboverlay4=/overlays/GB-24LCD-FEATHERWING.dtbo
   
 #console=ttyS0,115200
 #optargs=console=tty0
