@@ -18,6 +18,7 @@
 		__overlay__ {
 			#address-cells = <1>;
 			#size-cells = <0>;
+			cs-gpios = <&pioA 33 0>, <0>, <0>, <0>;
 			status = "okay";
 			eth1: enc28j60@0 {
 				compatible = "microchip,enc28j60";
