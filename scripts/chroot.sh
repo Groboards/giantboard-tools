@@ -168,7 +168,7 @@ EOT
 
 # Update and install stuff and things
 apt-get update
-apt-get install ca-certificates sudo python3 python3-pip python3-dev usbutils net-tools -y
+apt-get install ca-certificates sudo python3 python3-pip python3-dev usbutils net-tools parted -y
 pip3 install wheel
 
 # Setup the fstab for the microSD
@@ -198,6 +198,8 @@ systemctl enable getty@ttyGS0.service
 wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/libgpiod.sh
 chmod +x libgpiod.sh
 ./libgpiod.sh
+
+rm libgpiod.sh
 
 # Install blinka
 pip3 install adafruit-blinka
