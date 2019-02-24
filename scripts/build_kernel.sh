@@ -139,10 +139,10 @@ ${cross_make} menuconfig
 built_version="$(${cross_make} --no-print-directory -s kernelversion 2>/dev/null)"
 built_release="$(${cross_make} --no-print-directory -s kernelrelease 2>/dev/null)"
 
-
-${cross_make}
-DTC_FLAGS="-@" ${cross_make} dtbs
-${cross_make} modules
+cores=$(( $(nproc) * 2 ))
+${cross_make} -j"${cores}"
+DTC_FLAGS="-@" ${cross_make} dtbs -j"${cores}"
+${cross_make} modules -j"${cores}"
 ${cross_make} modules_install INSTALL_MOD_PATH="${modules_dir}"
 echo "done building.."
 echo "preparing tarball"
