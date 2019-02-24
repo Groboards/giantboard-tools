@@ -18,6 +18,7 @@ debootstrap \
 
 cp /usr/bin/qemu-arm-static ${rootfs_dir}/usr/bin/
 cp scripts/chroot.sh ${rootfs_dir}
+cp patches/requirements.txt ${rootfs_dir}
 
 mkdir -p ${rootfs_dir}/run
 chmod -R 755 ${rootfs_dir}/run
@@ -32,6 +33,7 @@ mount -t devpts devpts "${rootfs_dir}/dev/pts"
 
 chroot "${rootfs_dir}" /bin/bash -e chroot.sh
 rm ${rootfs_dir}/chroot.sh
+rm ${rootfs_dir}/requirements.txt
 sync
 
 umount -fl "${rootfs_dir}/dev/pts"
