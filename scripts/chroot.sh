@@ -62,7 +62,7 @@ EOT
 
 # Update and install stuff and things
 apt-get update
-apt-get install ca-certificates sudo python3 python3-pip python3-dev usbutils net-tools parted -y
+apt-get install ca-certificates sudo python3 python3-pip python3-dev python3-pil usbutils net-tools parted -y
 pip3 install wheel
 
 # Setup the fstab for the microSD
