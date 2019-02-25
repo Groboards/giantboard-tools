@@ -1,5 +1,5 @@
---- a/include/configs/sama5d27_som1_ek.h	2019-02-02 19:11:55.692995445 -0700
-+++ b/include/configs/sama5d27_som1_ek.h	2019-02-02 19:40:27.824660537 -0700
+--- a/include/configs/sama5d27_som1_ek.h	2019-02-24 16:51:33.824606068 -0700
++++ b/include/configs/sama5d27_som1_ek.h	2019-02-24 16:53:40.829837602 -0700
 @@ -38,9 +38,89 @@
  /* u-boot env in sd/mmc card */
  #define CONFIG_ENV_SIZE		0x4000
@@ -22,7 +22,7 @@
 +	"dtboverlay3=\0" \
 +	"dtboverlay4=\0" \
 +	"console=ttyS0,115200\0" \
-+	"optargs=\0" \
++	"optargs=atmel.pm_modes=standby,ulp1\0" \
 +	"video=\0" \
 +	"mmcdev=0\0" \
 +	"mmcpart=1\0" \
