@@ -168,14 +168,7 @@
 							regulator-name = "VDD_3V3";
 							regulator-min-microvolt = <3300000>;
 							regulator-max-microvolt = <3300000>;
-							regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_FIXED>,
-							                          <ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							regulator-initial-mode = <ACT8945A_REGULATOR_MODE_FIXED>;
 							regulator-always-on;
-
-							regulator-state-mem {
-								regulator-off-in-suspend;
-							};
 						};
 
 						vdd_fuse_reg: REG_LDO1 {
