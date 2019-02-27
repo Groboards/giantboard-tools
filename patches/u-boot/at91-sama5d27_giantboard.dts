@@ -43,11 +43,16 @@
  *     OTHER DEALINGS IN THE SOFTWARE.
  */
 /dts-v1/;
-#include "sama5d27_giantboard.dtsi"
+#include "sama5d2.dtsi"
+#include "sama5d2-pinfunc.h"
 
 / {
 	model = "Giant Board";
 	compatible = "atmel,sama5d27-som1-ek", "atmel,sama5d2", "atmel,sama5";
+	
+	memory {
+		reg = <0x20000000 0x8000000>;
+	};
 
 	chosen {
 		u-boot,dm-pre-reloc;
@@ -83,6 +88,25 @@
 				status = "okay";
 				u-boot,dm-pre-reloc;
 			};
+			
+			i2c0: i2c@f8028000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_i2c0_default>;
+				status = "okay";
+			};
+
+			i2c1: i2c@fc028000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_i2c1_default>;
+				status = "okay";
+				
+				pmic@5b {
+					compatible = "active-semi,act8945a";
+					reg = <0x5b>;
+					active-semi,vsel-low;
+					status = "okay";
+				};
+			};
 
 			pioA: gpio@fc038000 {
 				pinctrl {
@@ -109,6 +133,18 @@
 							 <PIN_PD3__UTXD1>;
 						bias-disable;
 						u-boot,dm-pre-reloc;
+					};
+					
+					pinctrl_i2c0_default: i2c0_default {
+						pinmux = <PIN_PD21__TWD0>,
+							 <PIN_PD22__TWCK0>;
+						bias-disable;
+					};
+
+					pinctrl_i2c1_default: i2c1_default {
+						pinmux = <PIN_PD4__TWD1>,
+							 <PIN_PD5__TWCK1>;
+						bias-disable;
 					};
 
 					pinctrl_usb_default: usb_default {
