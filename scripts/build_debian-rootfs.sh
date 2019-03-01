@@ -3,6 +3,7 @@
 [ "$UID" -eq 0 ] || exec sudo "$0" "$@" ]
 
 output_dir="$(pwd)/output"
+patch_dir="$(pwd)/patches/rootfs"
 rootfs_dir="${output_dir}/rootfs"
 
 if [ ! -d "${rootfs_dir}" ]; then
@@ -18,7 +19,9 @@ debootstrap \
 
 cp /usr/bin/qemu-arm-static ${rootfs_dir}/usr/bin/
 cp scripts/chroot.sh ${rootfs_dir}
-cp patches/requirements.txt ${rootfs_dir}
+cp ${patch_dir}/requirements.txt ${rootfs_dir}
+cp ${patch_dir}/grow_sd.sh ${rootfs_dir}/usr/bin/
+cp ${patch_dir}/batt_service.sh ${rootfs_dir}/usr/bin/
 
 mkdir -p ${rootfs_dir}/run
 chmod -R 755 ${rootfs_dir}/run
