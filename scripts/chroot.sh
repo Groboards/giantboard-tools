@@ -62,7 +62,7 @@ EOT
 
 # Update and install stuff and things
 apt-get update
-apt-get install ca-certificates sudo python3 python3-pip python3-dev python3-pil usbutils net-tools parted -y
+apt-get install ca-certificates sudo python3 python3-pip python3-dev python3-pil usbutils net-tools i2c-tools parted -y
 pip3 install wheel
 
 # Setup the fstab for the microSD
@@ -86,6 +86,11 @@ EOF
 
 sh -c "echo '127.0.0.1       giantboard' >> /etc/hosts"
 
+# Enable the battery service
+chmod +x /usr/bin/batt_service.sh
+systemctl enable batt.service
+
+# enable usb getty
 systemctl enable getty@ttyGS0.service
 
 # Download the script to build libgpiod and build it
