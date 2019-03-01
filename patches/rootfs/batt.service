@@ -1,0 +1,10 @@
+[Unit]
+Description=This service is for reading the /proc/cmdline and enabling or disabling the battery charger
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /usr/bin/batt_service.sh
+
+[Install]
+WantedBy=multi-user.target
+

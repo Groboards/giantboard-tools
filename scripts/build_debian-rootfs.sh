@@ -22,6 +22,7 @@ cp scripts/chroot.sh ${rootfs_dir}
 cp ${patch_dir}/requirements.txt ${rootfs_dir}
 cp ${patch_dir}/grow_sd.sh ${rootfs_dir}/usr/bin/
 cp ${patch_dir}/batt_service.sh ${rootfs_dir}/usr/bin/
+cp ${patch_dir}/batt.service ${rootfs_dir}/lib/systemd/system/
 
 mkdir -p ${rootfs_dir}/run
 chmod -R 755 ${rootfs_dir}/run
