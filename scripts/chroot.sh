@@ -90,6 +90,9 @@ sh -c "echo '127.0.0.1       giantboard' >> /etc/hosts"
 chmod +x /usr/bin/batt_service.sh
 systemctl enable batt.service
 
+# Make grow_sd.sh executable
+chmod +x /usr/bin/grow_sd.sh
+
 # enable usb getty
 systemctl enable getty@ttyGS0.service
 
