@@ -12,7 +12,7 @@ fdtfile=/dtbs/at91-sama5d27_giantboard.dtb
 #dtboverlay4=/overlays/GB-24LCD-FEATHERWING.dtbo
   
 #console=ttyS0,115200
-optargs=giantboard.disable_charging=1
+optargs=atmel.pm_modes=standby,ulp1 giantboard.disable_charging=1
   
 #mmcroot=/dev/mmcblk0p2 ro
 #mmcrootfstype=ext4 rootwait fixrtc

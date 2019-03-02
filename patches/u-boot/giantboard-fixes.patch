@@ -22,7 +22,7 @@
 +	"dtboverlay3=\0" \
 +	"dtboverlay4=\0" \
 +	"console=ttyS0,115200\0" \
-+	"optargs=atmel.pm_modes=standby,ulp1\0" \
++	"optargs=\0" \
 +	"video=\0" \
 +	"mmcdev=0\0" \
 +	"mmcpart=1\0" \
