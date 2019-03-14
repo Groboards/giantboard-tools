@@ -125,6 +125,9 @@ if [ -z "${patches_applied}" ] || [ "${patches_applied}" != "${patches[@]}" ]; t
 	
 fi
 
+if [ ! -d "${build_dir}/wilc1000" ]; then
+	git clone https://github.com/linux4wilc/driver "${build_dir}/wilc1000"
+fi
 echo "preparing kernel.."
 echo "cross_make: ${cross_make}"
 ${cross_make} distclean
@@ -144,6 +147,10 @@ ${cross_make} -j"${cores}"
 DTC_FLAGS="-@" ${cross_make} dtbs -j"${cores}"
 ${cross_make} modules -j"${cores}"
 ${cross_make} modules_install INSTALL_MOD_PATH="${modules_dir}"
+
+${cross_make} M="${build_dir}/wilc1000/wilc/" -j"${cores}" CONFIG_WILC_SDIO=m CONFIG_WILC_SPI=m
+${cross_make} M="${build_dir}/wilc1000/wilc/" INSTALL_MOD_PATH="${modules_dir}" modules_install CONFIG_WILC_SDIO=m CONFIG_WILC_SPI=m
+
 echo "done building.."
 echo "preparing tarball"
 tar -czf "${images_dir}/modules-${built_version}.tar.gz" -C "${modules_dir}" .
