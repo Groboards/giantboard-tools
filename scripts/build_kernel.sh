@@ -15,8 +15,9 @@ cross_make="make -C ${linux_dir} ARCH=arm CROSS_COMPILE=${CC}"
 
 # TODO: make these user-specifiable defaults
 patches=""
-release="v5.0-rc5"
+release="${release:-v5.0}"
 
+echo "Building kernel release: ${release}"
 mkdir -p "${build_dir}"
 mkdir -p "${images_dir}"
 
