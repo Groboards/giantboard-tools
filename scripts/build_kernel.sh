@@ -5,6 +5,7 @@ CC="$(pwd)/tools/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf/bin/arm-lin
 output_dir="$(pwd)/output"
 patch_dir="$(pwd)/patches/kernel"
 modules_dir="${output_dir}/modules"
+headers_dir="${output_dir}/headers"
 build_dir="${output_dir}/build"
 linux_dir="${build_dir}/linux"
 images_dir="${output_dir}/images"
@@ -151,9 +152,11 @@ ${cross_make} modules_install INSTALL_MOD_PATH="${modules_dir}"
 ${cross_make} M="${build_dir}/wilc1000/wilc/" -j"${cores}" CONFIG_WILC_SDIO=m CONFIG_WILC_SPI=m
 ${cross_make} M="${build_dir}/wilc1000/wilc/" INSTALL_MOD_PATH="${modules_dir}" modules_install CONFIG_WILC_SDIO=m CONFIG_WILC_SPI=m
 
+${cross_make} headers_install INSTALL_HDR_PATH="${headers_dir}"
 echo "done building.."
 echo "preparing tarball"
 tar -czf "${images_dir}/modules-${built_version}.tar.gz" -C "${modules_dir}" .
+tar -czf "${images_dir}/headers-${built_version}.tar.gz" -C "${headers_dir}" .
 ls -hal "${images_dir}/modules-${built_version}.tar.gz"
 echo "copying kernel files"
 
