@@ -127,9 +127,15 @@ if [ -z "${patches_applied}" ] || [ "${patches_applied}" != "${patches[@]}" ]; t
 	
 fi
 
-if [ ! -d "${build_dir}/wilc1000" ]; then
-	git clone https://github.com/linux4wilc/driver "${build_dir}/wilc1000"
-fi
+# Add wifi driver to source tree
+rm -rf ${linux_dir}/drivers/staging/wilc1000
+mkdir -p ${linux_dir}/drivers/staging/wilc1000
+git clone https://github.com/linux4wilc/driver.git
+mv driver/wilc/* ${linux_dir}/drivers/staging/wilc1000/
+patch -d ${linux_dir} -p1 < patches/kernel/Kconfig.patch
+patch -d ${linux_dir} -p1 < patches/kernel/Makefile.patch  
+rm -rf driver
+
 echo "preparing kernel.."
 echo "cross_make: ${cross_make}"
 ${cross_make} distclean
@@ -149,9 +155,6 @@ ${cross_make} -j"${cores}"
 DTC_FLAGS="-@" ${cross_make} dtbs -j"${cores}"
 ${cross_make} modules -j"${cores}"
 ${cross_make} modules_install INSTALL_MOD_PATH="${modules_dir}"
-
-${cross_make} M="${build_dir}/wilc1000/wilc/" -j"${cores}" CONFIG_WILC_SDIO=m CONFIG_WILC_SPI=m
-${cross_make} M="${build_dir}/wilc1000/wilc/" INSTALL_MOD_PATH="${modules_dir}" modules_install CONFIG_WILC_SDIO=m CONFIG_WILC_SPI=m
 
 ${cross_make} headers_install INSTALL_HDR_PATH="${headers_dir}"
 echo "done building.."

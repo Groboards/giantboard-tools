@@ -1,0 +1,46 @@
+--- a/drivers/staging/wilc1000/Kconfig 2019-03-29 12:11:43.895241556 -0700
++++ b/drivers/staging/wilc1000/Kconfig 2019-03-29 12:11:43.063230669 -0700
+@@ -1,4 +1,4 @@
+-config WILC
++config WILC1000
+ 	tristate
+ 
+ config WLAN_VENDOR_MCHP
+@@ -10,10 +10,10 @@
+ 
+ if WLAN_VENDOR_MCHP
+ 
+-config WILC_SDIO
++config WILC1000_SDIO
+ 	tristate "WILC SDIO"
+ 	depends on CFG80211 && INET && MMC
+-	select WILC
++	select WILC1000
+ 	help
+ 	  This module adds support for the SDIO interface of adapters using
+ 	  WILC1000 & WILC3000 chipset. The Atmel WILC1000 SDIO is a full speed interface.
+@@ -25,10 +25,10 @@
+ 	  this if your platform is using the SDIO bus.
+ 	  WILC3000 additionally supports BT 4.0 and BLE modes.
+ 
+-config WILC_SPI
++config WILC1000_SPI
+ 	tristate "WILC SPI"
+ 	depends on CFG80211 && INET && SPI
+-	select WILC
++	select WILC1000
+ 	help
+ 	  This module adds support for the SPI interface of adapters using
+ 	  WILC1000 & WILC3000 chipset. The Atmel WILC1000 has a Serial Peripheral
+@@ -39,9 +39,9 @@
+ 	  VDDIO. Select this if your platform is using the SPI bus.
+ 	  WILC3000 additionally supports BT 4.0 and BLE modes.
+ 
+-config WILC_HW_OOB_INTR
++config WILC1000_HW_OOB_INTR
+ 	bool "WILC out of band interrupt"
+-	depends on WILC_SDIO
++	depends on WILC1000_SDIO
+ 	default n
+ 	help
+ 	  This option enables out-of-band interrupt support for the WILC1000 &

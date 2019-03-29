@@ -1,0 +1,15 @@
+--- a/drivers/staging/wilc1000/Makefile	2019-03-29 13:39:02.942456747 -0700
++++ b/drivers/staging/wilc1000/Makefile	2019-03-29 13:39:04.006446829 -0700
+@@ -6,10 +6,10 @@
+ 			host_interface.o wilc_wlan_cfg.o wilc_debugfs.o \
+ 			wilc_wlan.o sysfs.o wilc_bt.o
+ 
+-obj-$(CONFIG_WILC_SDIO) += wilc-sdio.o
++obj-$(CONFIG_WILC1000_SDIO) += wilc-sdio.o
+ wilc-sdio-objs += $(wilc-objs)
+ wilc-sdio-objs += wilc_sdio.o
+ 
+-obj-$(CONFIG_WILC_SPI) += wilc-spi.o
++obj-$(CONFIG_WILC1000_SPI) += wilc-spi.o
+ wilc-spi-objs += $(wilc-objs)
+ wilc-spi-objs += wilc_spi.o 

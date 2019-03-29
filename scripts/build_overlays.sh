@@ -11,7 +11,8 @@ mkdir -p "${overlays_dir}"
 # overlays array
 declare -a overlays=("GB-24LCD-FEATHERWING"
 					"GB-ETHERNET-FEATHERWING"
-					"GB-SPI0-ENC28J60")
+					"GB-SPI0-ENC28J60"
+					"GB-WIFI-FEATHERWING")
 
 # Install all the libs listed in the blinka_libs array
 for i in "${overlays[@]}"

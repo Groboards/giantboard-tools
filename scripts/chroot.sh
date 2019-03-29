@@ -62,7 +62,9 @@ EOT
 
 # Update and install stuff and things
 apt-get update
-apt-get install ca-certificates sudo python3 python3-pip python3-dev python3-pil usbutils net-tools i2c-tools parted -y
+apt-get install ca-certificates sudo python3 python3-pip python3-dev \
+ python3-pil usbutils net-tools i2c-tools parted wpasupplicant hostapd -y
+
 pip3 install wheel
 
 # Setup the fstab for the microSD
@@ -100,8 +102,12 @@ systemctl enable getty@ttyGS0.service
 wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/libgpiod.sh
 chmod +x libgpiod.sh
 ./libgpiod.sh
-
 rm libgpiod.sh
+
+# add wifi firmware
+wget https://github.com/linux4wilc/firmware/raw/master/wilc1000_wifi_firmware.bin
+mkdir -p /lib/firmware/mchp
+mv wilc1000_wifi_firmware.bin /lib/firmware/mchp
 
 # Install blinka and circuitpython packages
 pip3 install -r requirements.txt
