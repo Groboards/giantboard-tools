@@ -14,13 +14,8 @@ echo "6: Build device overlays"
 echo "7: Make bootable device image"
 	
 setup_env () {
-	chmod +x scripts/setup_env.sh
-	chmod +x scripts/build_at91bootstrap.sh
-	chmod +x scripts/build_u-boot.sh
-	chmod +x scripts/build_kernel.sh
-	chmod +x scripts/build_debian-rootfs.sh
-	chmod +x scripts/build_overlays.sh
-	chmod +x scripts/make-image.sh
+	
+	chmod +x scripts/*.sh
 	mkdir -p "${build_dir}"
 	scripts/setup_env.sh
 }
