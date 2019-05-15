@@ -51,302 +51,302 @@
 #include <dt-bindings/regulator/active-semi,8945a-regulator.h>
 
 / {
-	model = "Giant Board";
-	compatible = "atmel,sama5d27-som1-ek", "atmel,sama5d27-som1", "atmel,sama5d27", "atmel,sama5d2", "atmel,sama5";
+    model = "Giant Board";
+    compatible = "atmel,sama5d27-som1-ek", "atmel,sama5d27-som1", "atmel,sama5d27", "atmel,sama5d2", "atmel,sama5";
 
-	chosen {
-		stdout-path = "serial0:115200n8";
-	};
+    chosen {
+        stdout-path = "serial0:115200n8";
+    };
 
-	ahb {
-	
-		usb0: gadget@300000 {
-			status = "okay";
-		};
+    ahb {
+    
+        usb0: gadget@300000 {
+            status = "okay";
+        };
 
-		usb1: ohci@400000 {
-			num-ports = <3>;
-			status = "okay";
-		};
+        usb1: ohci@400000 {
+            num-ports = <3>;
+            status = "okay";
+        };
 
-		usb2: ehci@500000 {
-			status = "okay";
-		};
+        usb2: ehci@500000 {
+            status = "okay";
+        };
 
-		sdmmc1: sdio-host@b0000000 {
-			bus-width = <4>;
-			pinctrl-names = "default";
-			pinctrl-0 = <&pinctrl_sdmmc1_default>;
-			status = "okay";
-		};
+        sdmmc1: sdio-host@b0000000 {
+            bus-width = <4>;
+            pinctrl-names = "default";
+            pinctrl-0 = <&pinctrl_sdmmc1_default>;
+            status = "okay";
+        };
 
-		apb {
+        apb {
 
-			spi0: spi@f8000000 {
-				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_spi0_default>;
-				status = "disabled";
-			};
+            spi0: spi@f8000000 {
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_spi0_default>;
+                status = "disabled";
+            };
 
-			uart1: serial@f8020000 {
-				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_uart1_default>;
-				atmel,use-dma-rx;
-				atmel,use-dma-tx;
-				status = "okay";
-			};
+            uart1: serial@f8020000 {
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_uart1_default>;
+                atmel,use-dma-rx;
+                atmel,use-dma-tx;
+                status = "okay";
+            };
 
-			shdwc@f8048010 {
-				atmel,shdwc-debouncer = <976>;
-				atmel,wakeup-rtc-timer;
+            shdwc@f8048010 {
+                atmel,shdwc-debouncer = <976>;
+                atmel,wakeup-rtc-timer;
 
-				input@0 {
-					reg = <0>;
-					atmel,wakeup-type = "low";
-				};
-			};
+                input@0 {
+                    reg = <0>;
+                    atmel,wakeup-type = "low";
+                };
+            };
 
-			watchdog@f8048040 {
-				status = "okay";
-			};
-			
-			i2s0: i2s@f8050000 {
-				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_i2s0_default>;
-				status = "disabled";
-			};
+            watchdog@f8048040 {
+                status = "okay";
+            };
+            
+            i2s0: i2s@f8050000 {
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_i2s0_default>;
+                status = "disabled";
+            };
 
-			i2c0: i2c@f8028000 {
-				dmas = <0>, <0>;
-				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_i2c0_default>;
-				status = "okay";
-			};
+            i2c0: i2c@f8028000 {
+                dmas = <0>, <0>;
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_i2c0_default>;
+                status = "okay";
+            };
 
-			i2c1: i2c@fc028000 {
-				dmas = <0>, <0>;
-				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_i2c1_default>;
-				i2c-sda-hold-time-ns = <350>;
-				status = "okay";
+            i2c1: i2c@fc028000 {
+                dmas = <0>, <0>;
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_i2c1_default>;
+                i2c-sda-hold-time-ns = <350>;
+                status = "okay";
 
-				pmic@5b {
-					compatible = "active-semi,act8945a";
-					reg = <0x5b>;
-					active-semi,vsel-low;
-					status = "okay";
+                pmic@5b {
+                    compatible = "active-semi,act8945a";
+                    reg = <0x5b>;
+                    active-semi,vsel-low;
+                    status = "okay";
 
-					regulators {
-					
-						vdd_1v8_reg: REG_DCDC1 {
-							regulator-name = "VDD_1V8";
-							regulator-min-microvolt = <1800000>;
-							regulator-max-microvolt = <1800000>;
-							regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_FIXED>,
-							                          <ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							regulator-initial-mode = <ACT8945A_REGULATOR_MODE_FIXED>;
-							regulator-always-on;
+                    regulators {
+                    
+                        vdd_1v8_reg: REG_DCDC1 {
+                            regulator-name = "VDD_1V8";
+                            regulator-min-microvolt = <1800000>;
+                            regulator-max-microvolt = <1800000>;
+                            regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_FIXED>,
+                                                      <ACT8945A_REGULATOR_MODE_LOWPOWER>;
+                            regulator-initial-mode = <ACT8945A_REGULATOR_MODE_FIXED>;
+                            regulator-always-on;
 
-							regulator-state-mem {
-								regulator-on-in-suspend;
-								regulator-suspend-min-microvolt=<1850000>;
-								regulator-suspend-max-microvolt=<1850000>;
-								regulator-changeable-in-suspend;
-								regulator-mode=<ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							};
-						};
+                            regulator-state-mem {
+                                regulator-on-in-suspend;
+                                regulator-suspend-min-microvolt=<1850000>;
+                                regulator-suspend-max-microvolt=<1850000>;
+                                regulator-changeable-in-suspend;
+                                regulator-mode=<ACT8945A_REGULATOR_MODE_LOWPOWER>;
+                            };
+                        };
 
-						vdd_1v2_reg: REG_DCDC2 {
-							regulator-name = "VDD_1V2";
-							regulator-min-microvolt = <1100000>;
-							regulator-max-microvolt = <1300000>;
-							regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_FIXED>,
-							                          <ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							regulator-initial-mode = <ACT8945A_REGULATOR_MODE_FIXED>;
-							regulator-always-on;
+                        vdd_1v2_reg: REG_DCDC2 {
+                            regulator-name = "VDD_1V2";
+                            regulator-min-microvolt = <1100000>;
+                            regulator-max-microvolt = <1300000>;
+                            regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_FIXED>,
+                                                      <ACT8945A_REGULATOR_MODE_LOWPOWER>;
+                            regulator-initial-mode = <ACT8945A_REGULATOR_MODE_FIXED>;
+                            regulator-always-on;
 
-							regulator-state-mem {
-								regulator-off-in-suspend;
-							};
-						};
+                            regulator-state-mem {
+                                regulator-off-in-suspend;
+                            };
+                        };
 
-						vdd_3v3_reg: REG_DCDC3 {
-							regulator-name = "VDD_3V3";
-							regulator-min-microvolt = <3300000>;
-							regulator-max-microvolt = <3300000>;
-							regulator-always-on;
-						};
+                        vdd_3v3_reg: REG_DCDC3 {
+                            regulator-name = "VDD_3V3";
+                            regulator-min-microvolt = <3300000>;
+                            regulator-max-microvolt = <3300000>;
+                            regulator-always-on;
+                        };
 
-						vdd_fuse_reg: REG_LDO1 {
-							regulator-name = "VDD_FUSE";
-							regulator-min-microvolt = <2500000>;
-							regulator-max-microvolt = <2500000>;
-							regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
-							                          <ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
-							regulator-always-on;
+                        vdd_fuse_reg: REG_LDO1 {
+                            regulator-name = "VDD_FUSE";
+                            regulator-min-microvolt = <2500000>;
+                            regulator-max-microvolt = <2500000>;
+                            regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
+                                                      <ACT8945A_REGULATOR_MODE_LOWPOWER>;
+                            regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
+                            regulator-always-on;
 
-							regulator-state-mem {
-								regulator-off-in-suspend;
-							};
-						};
+                            regulator-state-mem {
+                                regulator-off-in-suspend;
+                            };
+                        };
 
-						vdd_3v3_lp_reg: REG_LDO2 {
-							regulator-name = "VDD_3V3_LP";
-							regulator-min-microvolt = <3300000>;
-							regulator-max-microvolt = <3300000>;
-							regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
-							                          <ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
-							regulator-always-on;
+                        vdd_3v3_lp_reg: REG_LDO2 {
+                            regulator-name = "VDD_3V3_LP";
+                            regulator-min-microvolt = <3300000>;
+                            regulator-max-microvolt = <3300000>;
+                            regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
+                                                      <ACT8945A_REGULATOR_MODE_LOWPOWER>;
+                            regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
+                            regulator-always-on;
 
-							regulator-state-mem {
-								regulator-off-in-suspend;
-							};
-						};
+                            regulator-state-mem {
+                                regulator-off-in-suspend;
+                            };
+                        };
 
-						vdd_led_reg: REG_LDO3 {
-							regulator-name = "VDD_LED";
-							regulator-min-microvolt = <3300000>;
-							regulator-max-microvolt = <3300000>;
-							regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
-							                          <ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
-							regulator-always-on;
+                        vdd_led_reg: REG_LDO3 {
+                            regulator-name = "VDD_LED";
+                            regulator-min-microvolt = <3300000>;
+                            regulator-max-microvolt = <3300000>;
+                            regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
+                                                      <ACT8945A_REGULATOR_MODE_LOWPOWER>;
+                            regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
+                            regulator-always-on;
 
-							regulator-state-mem {
-								regulator-off-in-suspend;
-							};
-						};
+                            regulator-state-mem {
+                                regulator-off-in-suspend;
+                            };
+                        };
 
-						vdd_sdhc_1v8_reg: REG_LDO4 {
-							regulator-name = "VDD_SDHC_1V8";
-							regulator-min-microvolt = <1800000>;
-							regulator-max-microvolt = <1800000>;
-							regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
-							                          <ACT8945A_REGULATOR_MODE_LOWPOWER>;
-							regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
-							regulator-always-on;
+                        vdd_sdhc_1v8_reg: REG_LDO4 {
+                            regulator-name = "VDD_SDHC_1V8";
+                            regulator-min-microvolt = <1800000>;
+                            regulator-max-microvolt = <1800000>;
+                            regulator-allowed-modes = <ACT8945A_REGULATOR_MODE_NORMAL>,
+                                                      <ACT8945A_REGULATOR_MODE_LOWPOWER>;
+                            regulator-initial-mode = <ACT8945A_REGULATOR_MODE_NORMAL>;
+                            regulator-always-on;
 
-							regulator-state-mem {
-								regulator-off-in-suspend;
-							};
-						};
-					};
+                            regulator-state-mem {
+                                regulator-off-in-suspend;
+                            };
+                        };
+                    };
 
-					charger {
-						compatible = "active-semi,act8945a-charger";
-						pinctrl-names = "default";
-						pinctrl-0 = <&pinctrl_charger_chglev &pinctrl_charger_lbo &pinctrl_charger_irq>;
-						interrupt-parent = <&pioA>;
-						interrupts = <PIN_PB13 IRQ_TYPE_EDGE_RISING>;
+                    charger {
+                        compatible = "active-semi,act8945a-charger";
+                        pinctrl-names = "default";
+                        pinctrl-0 = <&pinctrl_charger_chglev &pinctrl_charger_lbo &pinctrl_charger_irq>;
+                        interrupt-parent = <&pioA>;
+                        interrupts = <PIN_PB13 IRQ_TYPE_EDGE_RISING>;
 
-						active-semi,chglev-gpios = <&pioA PIN_PA12 GPIO_ACTIVE_HIGH>;
-						active-semi,lbo-gpios = <&pioA PIN_PC8 GPIO_ACTIVE_LOW>;
-						active-semi,input-voltage-threshold-microvolt = <6600>;
-						active-semi,precondition-timeout = <40>;
-						active-semi,total-timeout = <3>;
-						status = "okay";
-					};
-				};
-			};
-			
-			adc: adc@fc030000 {
-				vddana-supply = <&vdd_3v3_reg>;
-				vref-supply = <&vdd_3v3_reg>;
-				status = "disabled";
-			};
+                        active-semi,chglev-gpios = <&pioA PIN_PA12 GPIO_ACTIVE_HIGH>;
+                        active-semi,lbo-gpios = <&pioA PIN_PC8 GPIO_ACTIVE_LOW>;
+                        active-semi,input-voltage-threshold-microvolt = <6600>;
+                        active-semi,precondition-timeout = <40>;
+                        active-semi,total-timeout = <3>;
+                        status = "okay";
+                    };
+                };
+            };
+            
+            adc: adc@fc030000 {
+                vddana-supply = <&vdd_3v3_reg>;
+                vref-supply = <&vdd_3v3_reg>;
+                status = "disabled";
+            };
 
-			pwm0: pwm@f802c000 {
-				status = "disabled";
-			};
-			
-			pinctrl@fc038000 {
-			
-				pinctrl_i2s0_default: i2s0_default {
-					pinmux = <PIN_PD19__I2SC0_CK>,
-							 <PIN_PD20__I2SC0_MCK>,
-							 <PIN_PD21__I2SC0_WS>,
-							 <PIN_PD22__I2SC0_DI0>,
-							 <PIN_PD23__I2SC0_DO0>;
-					bias-disable;
-				};
+            pwm0: pwm@f802c000 {
+                status = "disabled";
+            };
+            
+            pinctrl@fc038000 {
+            
+                pinctrl_i2s0_default: i2s0_default {
+                    pinmux = <PIN_PD19__I2SC0_CK>,
+                             <PIN_PD20__I2SC0_MCK>,
+                             <PIN_PD21__I2SC0_WS>,
+                             <PIN_PD22__I2SC0_DI0>,
+                             <PIN_PD23__I2SC0_DO0>;
+                    bias-disable;
+                };
 
-				pinctrl_i2c0_default: i2c0_default {
-					pinmux = <PIN_PB31__TWD0>,
-							 <PIN_PC0__TWCK0>;
-					bias-disable;
-				};
+                pinctrl_i2c0_default: i2c0_default {
+                    pinmux = <PIN_PB31__TWD0>,
+                             <PIN_PC0__TWCK0>;
+                    bias-disable;
+                };
 
-				pinctrl_i2c1_default: i2c1_default {
-					pinmux = <PIN_PD4__TWD1>,
-							 <PIN_PD5__TWCK1>;
-					bias-disable;
-				};
+                pinctrl_i2c1_default: i2c1_default {
+                    pinmux = <PIN_PD4__TWD1>,
+                             <PIN_PD5__TWCK1>;
+                    bias-disable;
+                };
 
-				pinctrl_led_gpio_default: led_gpio_default {
-					pinmux = <PIN_PA6__GPIO>;
-					bias-pull-down;
-				};
+                pinctrl_led_gpio_default: led_gpio_default {
+                    pinmux = <PIN_PA6__GPIO>;
+                    bias-pull-down;
+                };
 
-				pinctrl_sdmmc1_default: sdmmc1_default {
-					cmd_data {
-						pinmux = <PIN_PA28__SDMMC1_CMD>,
-								 <PIN_PA18__SDMMC1_DAT0>,
-								 <PIN_PA19__SDMMC1_DAT1>,
-								 <PIN_PA20__SDMMC1_DAT2>,
-								 <PIN_PA21__SDMMC1_DAT3>;
-						bias-pull-up;
-					};
+                pinctrl_sdmmc1_default: sdmmc1_default {
+                    cmd_data {
+                        pinmux = <PIN_PA28__SDMMC1_CMD>,
+                                 <PIN_PA18__SDMMC1_DAT0>,
+                                 <PIN_PA19__SDMMC1_DAT1>,
+                                 <PIN_PA20__SDMMC1_DAT2>,
+                                 <PIN_PA21__SDMMC1_DAT3>;
+                        bias-pull-up;
+                    };
 
-						conf-ck_cd {
-						pinmux = <PIN_PA22__SDMMC1_CK>,
-						<PIN_PA30__SDMMC1_CD>;
-						bias-disable;
-					};
-				};
+                        conf-ck_cd {
+                        pinmux = <PIN_PA22__SDMMC1_CK>,
+                        <PIN_PA30__SDMMC1_CD>;
+                        bias-disable;
+                    };
+                };
 
-				pinctrl_spi0_default: spi0_default {
-					pinmux = <PIN_PA14__SPI0_SPCK>,
-							 <PIN_PA15__SPI0_MOSI>,
-							 <PIN_PA16__SPI0_MISO>;
-					bias-disable;
-				};
+                pinctrl_spi0_default: spi0_default {
+                    pinmux = <PIN_PA14__SPI0_SPCK>,
+                             <PIN_PA15__SPI0_MOSI>,
+                             <PIN_PA16__SPI0_MISO>;
+                    bias-disable;
+                };
 
-				pinctrl_uart1_default: uart1_default {
-					pinmux = <PIN_PD2__URXD1>,
-					         <PIN_PD3__UTXD1>;
-					bias-disable;
-				};
+                pinctrl_uart1_default: uart1_default {
+                    pinmux = <PIN_PD2__URXD1>,
+                             <PIN_PD3__UTXD1>;
+                    bias-disable;
+                };
 
-				pinctrl_charger_chglev: charger_chglev {
-					pinmux = <PIN_PA12__GPIO>;
-					bias-disable;
-				};
+                pinctrl_charger_chglev: charger_chglev {
+                    pinmux = <PIN_PA12__GPIO>;
+                    bias-disable;
+                };
 
-				pinctrl_charger_irq: charger_irq {
-					pinmux = <PIN_PB13__GPIO>;
-					bias-disable;
-				};
+                pinctrl_charger_irq: charger_irq {
+                    pinmux = <PIN_PB13__GPIO>;
+                    bias-disable;
+                };
 
-				pinctrl_charger_lbo: charger_lbo {
-					pinmux = <PIN_PC8__GPIO>;
-					bias-pull-up;
-				};
-			};
-		};
-	};
+                pinctrl_charger_lbo: charger_lbo {
+                    pinmux = <PIN_PC8__GPIO>;
+                    bias-pull-up;
+                };
+            };
+        };
+    };
 
-	leds {
-		compatible = "gpio-leds";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_led_gpio_default>;
-		status = "okay";
+    leds {
+        compatible = "gpio-leds";
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_led_gpio_default>;
+        status = "okay";
 
-		orange {
-			label = "orange";
-			gpios = <&pioA PIN_PA6 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger = "mmc0";
-		};
-	};
+        orange {
+            label = "orange";
+            gpios = <&pioA PIN_PA6 GPIO_ACTIVE_HIGH>;
+            linux,default-trigger = "mmc0";
+        };
+    };
 };
