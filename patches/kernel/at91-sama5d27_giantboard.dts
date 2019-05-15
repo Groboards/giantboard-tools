@@ -109,6 +109,12 @@
 			watchdog@f8048040 {
 				status = "okay";
 			};
+			
+			i2s0: i2s@f8050000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_i2s0_default>;
+				status = "disabled";
+			};
 
 			i2c0: i2c@f8028000 {
 				dmas = <0>, <0>;
@@ -256,16 +262,25 @@
 			};
 			
 			pinctrl@fc038000 {
+			
+				pinctrl_i2s0_default: i2s0_default {
+					pinmux = <PIN_PD19__I2SC0_CK>,
+							 <PIN_PD20__I2SC0_MCK>,
+							 <PIN_PD21__I2SC0_WS>,
+							 <PIN_PD22__I2SC0_DI0>,
+							 <PIN_PD23__I2SC0_DO0>;
+					bias-disable;
+				};
 
 				pinctrl_i2c0_default: i2c0_default {
 					pinmux = <PIN_PB31__TWD0>,
-					<PIN_PC0__TWCK0>;
+							 <PIN_PC0__TWCK0>;
 					bias-disable;
 				};
 
 				pinctrl_i2c1_default: i2c1_default {
 					pinmux = <PIN_PD4__TWD1>,
-					<PIN_PD5__TWCK1>;
+							 <PIN_PD5__TWCK1>;
 					bias-disable;
 				};
 
@@ -277,10 +292,10 @@
 				pinctrl_sdmmc1_default: sdmmc1_default {
 					cmd_data {
 						pinmux = <PIN_PA28__SDMMC1_CMD>,
-						<PIN_PA18__SDMMC1_DAT0>,
-						<PIN_PA19__SDMMC1_DAT1>,
-						<PIN_PA20__SDMMC1_DAT2>,
-						<PIN_PA21__SDMMC1_DAT3>;
+								 <PIN_PA18__SDMMC1_DAT0>,
+								 <PIN_PA19__SDMMC1_DAT1>,
+								 <PIN_PA20__SDMMC1_DAT2>,
+								 <PIN_PA21__SDMMC1_DAT3>;
 						bias-pull-up;
 					};
 
@@ -293,14 +308,14 @@
 
 				pinctrl_spi0_default: spi0_default {
 					pinmux = <PIN_PA14__SPI0_SPCK>,
-					<PIN_PA15__SPI0_MOSI>,
-					<PIN_PA16__SPI0_MISO>;
+							 <PIN_PA15__SPI0_MOSI>,
+							 <PIN_PA16__SPI0_MISO>;
 					bias-disable;
 				};
 
 				pinctrl_uart1_default: uart1_default {
 					pinmux = <PIN_PD2__URXD1>,
-					<PIN_PD3__UTXD1>;
+					         <PIN_PD3__UTXD1>;
 					bias-disable;
 				};
 
