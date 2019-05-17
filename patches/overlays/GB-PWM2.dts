@@ -1,0 +1,29 @@
+/dts-v1/;
+/plugin/;
+
+#include "sama5d2-pinfunc.h"
+
+/ {
+	Compatible = "Giant Board";
+	
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			pinctrl_pwm_default: pwm_default {
+				pinmux = <PIN_PB5__PWMH2>;
+				bias-pull-up;
+			};
+		};
+	};	
+	
+	fragment@1 {
+		target = <&pwm0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_pwm_default>;
+			status = "okay";
+		};
+	};
+};

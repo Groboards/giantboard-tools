@@ -1,13 +1,15 @@
 /dts-v1/;
 /plugin/;
 
+#include "sama5d2-pinfunc.h"
+
 / {
 
 	fragment@0 {
 		target = <&pioA>;
 		__overlay__ {
 			w5500_pins: pinmux_w5500_pins {
-				pinmux = <127 3 4>;
+				pinmux = <PIN_PD31__IRQ>;
 				bias-pull-up;
 			};
 		};
@@ -18,7 +20,7 @@
 		__overlay__ {
 			#address-cells = <1>;
 			#size-cells = <0>;
-			cs-gpios = <&pioA 39 0>;
+			cs-gpios = <&pioA PIN_PB7 0>;
 			status = "okay";
 			w5500: ethernet@1 {
 				compatible = "wiznet,w5500";
@@ -26,7 +28,7 @@
 				pinctrl-0 = <&w5500_pins>;
 				reg = <0>;
 				interrupt-parent = <&pioA>;
-				interrupts = <127 2>; 
+				interrupts = <PIN_PD31 2>; 
 				spi-max-frequency = <32000000>;
 				local-mac-address = [ 00 00 00 00 00 00 ];
 			};

@@ -7,15 +7,15 @@
 		__overlay__ {
 			#address-cells = <1>;
 			#size-cells = <0>;
-			cs-gpios = <&pioA 39 0>, <&pioA 116 0>, <0>, <0>;
+			cs-gpios = <&pioA PIN_PD20 0>;
 			status = "okay";
 			wilc_spi@0 {
 				compatible = "microchip,wilc1000";
-				spi-max-frequency = <48000000>;
-				reg = <1>;
-				reset-gpios = <&pioA 32 0>;
-				chip_en-gpios = <&pioA 109 0>;
-				irq-gpios = <&pioA 35 0>; 
+				spi-max-frequency = <32000000>;
+				reg = <0>;
+				reset-gpios = <&pioA PIN_PB0 0>;
+				chip_en-gpios = <&pioA PIN_PD13 0>;
+				irq-gpios = <&pioA PIN_PB3 0>; 
 				status = "okay";
 			};
 		};

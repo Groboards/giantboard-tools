@@ -1,6 +1,8 @@
 /dts-v1/;
 /plugin/;
 
+#include "sama5d2-pinfunc.h"
+
 / {
 	compatible = "Giant Board";
 
@@ -8,8 +10,8 @@
 		target = <&pioA>;
 		__overlay__ {
 			tftfeatherwing_pins: tftfeatherwing_pins {
-				pinmux = <39 0 0>,
-						 <37 0 0>;
+				pinmux = <PIN_PB7__GPIO>,
+						 <PIN_PB5__GPIO>;
 				bias-disable;
 			};
 		};
@@ -20,7 +22,7 @@
 		__overlay__ {
 			#address-cells = <1>;
 			#size-cells = <0>;
-			cs-gpios = <&pioA 33 0>, <0>, <0>, <0>;
+			cs-gpios = <&pioA PIN_PB1 0>;
 			status = "okay";
 			tftfeatherwing: tftfeatherwing@0{
 				compatible = "ilitek,ili9341";
@@ -33,17 +35,10 @@
 				fps = <40>;
 				bgr;
 				buswidth = <8>;
-				dc-gpios = <&pioA 39 0>;
-				reset-gpios = <&pioA 37 0>;
+				dc-gpios = <&pioA PIN_PB7 0>;
+				reset-gpios = <&pioA PIN_PB5 0>;
 				debug = <0>;
 			};
 		};
-	};
-
-	__overrides__ {
-		speed =   <&tftfeatherwing>,"spi-max-frequency:0";
-		rotate =  <&tftfeatherwing>,"rotate:0";
-		fps =     <&tftfeatherwing>,"fps:0";
-		debug =   <&tftfeatherwing>,"debug:0";
 	};
 };

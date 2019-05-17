@@ -1,0 +1,20 @@
+/dts-v1/;
+/plugin/;
+/ {
+	Compatible = "Giant Board";
+
+	fragment@0 {
+		target = <&spi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			cs-gpios = <&pioA PIN_PB7 0>;
+			spidev@0 {
+				compatible = "spidev";
+				spi-max-frequency = <24000000>;
+				reg = <0>;
+			};
+		};
+	};
+};

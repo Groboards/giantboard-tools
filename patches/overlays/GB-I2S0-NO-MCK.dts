@@ -1,0 +1,32 @@
+/dts-v1/;
+/plugin/;
+
+#include "sama5d2-pinfunc.h"
+
+/ {
+	Compatible = "Giant Board";
+
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			pinctrl_i2s0_default: i2s0_default {
+				pinmux = <PIN_PD19__I2SC0_CK>,
+						 <PIN_PD21__I2SC0_WS>,
+						 <PIN_PD22__I2SC0_DI0>,
+						 <PIN_PD23__I2SC0_DO0>;
+				bias-disable;
+			};
+		};
+	};
+	
+	fragment@1 {
+		target = <&i2s0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_i2s0_default>;
+			status = "okay";
+		};
+	};
+};
