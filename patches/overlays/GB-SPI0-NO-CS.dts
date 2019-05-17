@@ -1,12 +1,12 @@
 /dts-v1/;
 /plugin/;
 / {
-	Compatible = "Giant Board";
+    Compatible = "Giant Board";
 
-	fragment@0 {
-		target = <&spi0>;
-		__overlay__ {
-			status = "okay";
-		};
-	};
+    fragment@0 {
+        target = <&spi0>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
 };
