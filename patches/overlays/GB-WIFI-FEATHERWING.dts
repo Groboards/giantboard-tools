@@ -1,6 +1,8 @@
 /dts-v1/;
 /plugin/;
 
+#include "sama5d2-pinfunc.h"
+
 / {	
 	fragment@0 {
 		target = <&spi0>;
