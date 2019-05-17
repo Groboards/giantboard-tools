@@ -10,14 +10,26 @@ mkdir -p "${overlays_dir}"
 
 # overlays array
 declare -a overlays=("GB-24LCD-FEATHERWING"
-					"GB-ETHERNET-FEATHERWING"
-					"GB-SPI0-ENC28J60"
-					"GB-WIFI-FEATHERWING")
+					 "GB-ETHERNET-FEATHERWING"
+					 "GB-I2C0"
+					 "GB-I2S0"
+					 "GB-I2S0-NO-MCK"
+					 "GB-I2S0-NO-MCK-NO-DI"
+					 "GB-PWM1"
+					 "GB-PWM1-3"
+					 "GB-PWM1-4"
+					 "GB-PWM2"
+					 "GB-SPI0-ENC28J60"
+					 "GB-SPI0-NO-CS"
+					 "GB-SPI0-SPIDEV-CS-PWML1"
+					 "GB-WIFI-FEATHERWING")
 
 # Install all the libs listed in the blinka_libs array
+#dtc -@ -I dts -O dtb -o ${overlays_dir}/"$i".dtbo ${patch_dir}/"$i".dts
+
 for i in "${overlays[@]}"
 do
-	dtc -@ -I dts -O dtb -o ${overlays_dir}/"$i".dtbo ${patch_dir}/"$i".dts
+	cpp -nostdinc -I include -undef -x assembler-with-cpp ${patch_dir}/"$i".dts | dtc -@ -I dts -O dtb -o ${overlays_dir}/"$i".dtbo
 done
 
 echo "done building.."
