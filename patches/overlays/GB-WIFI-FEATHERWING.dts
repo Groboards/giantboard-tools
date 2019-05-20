@@ -4,6 +4,19 @@
 #include "sama5d2-pinfunc.h"
 
 / {	
+
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			wififeatherwing_pins: wififeatherwing_pins {
+				pinmux = <PIN_PB0__GPIO>,
+						 <PIN_PD13__GPIO>,
+						 <PIN_PB3__IRQ>;
+				bias-disable;
+			};
+		};
+	};
+	
 	fragment@0 {
 		target = <&spi0>;
 		__overlay__ {
@@ -15,6 +28,8 @@
 				compatible = "microchip,wilc1000";
 				spi-max-frequency = <32000000>;
 				reg = <0>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&wififeatherwing_pins>;
 				reset-gpios = <&pioA PIN_PB0 0>;
 				chip_en-gpios = <&pioA PIN_PD13 0>;
 				irq-gpios = <&pioA PIN_PB3 0>; 
