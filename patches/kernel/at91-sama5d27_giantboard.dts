@@ -95,6 +95,10 @@
                 atmel,use-dma-tx;
                 status = "okay";
             };
+            
+            flx4: flexcom@fc018000 {
+				status = "disabled";
+            };
 
             shdwc@f8048010 {
                 atmel,shdwc-debouncer = <976>;
