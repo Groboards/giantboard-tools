@@ -1,0 +1,45 @@
+/dts-v1/;
+/plugin/;
+
+#include "sama5d2-pinfunc.h"
+#include "dt-bindings/mfd/atmel-flexcom.h"
+#include "dt-bindings/gpio/gpio.h"
+#include "dt-bindings/interrupt-controller/irq.h"
+#include "dt-bindings/clock/at91.h"
+
+/ {
+    Compatible = "Giant Board";
+
+    fragment@0 {
+        target = <&pioA>;
+        __overlay__ {
+			pinctrl_flx4_default: flx4_uart_default {
+				pinmux = <PIN_PD21__FLEXCOM4_IO0>,
+						 <PIN_PD22__FLEXCOM4_IO1>;
+				bias-disable;
+			};
+        };
+    };
+    
+    fragment@1 {
+        target = <&flx4>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <1>;
+			atmel,flexcom-mode = <ATMEL_FLEXCOM_MODE_USART>;
+			status = "okay";
+
+			uart2: serial@200 {
+				compatible = "atmel,at91sam9260-usart";
+				reg = <0x200 0x200>;
+				interrupts = <23 IRQ_TYPE_LEVEL_HIGH 7>;
+				clocks = <&pmc PMC_TYPE_PERIPHERAL 23>;
+				clock-names = "usart";
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_flx4_default>;
+				atmel,fifo-size = <32>;
+				status = "okay";
+			};
+        };
+    };
+};
