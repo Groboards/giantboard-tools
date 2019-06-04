@@ -1,0 +1,22 @@
+/dts-v1/;
+/plugin/;
+
+#include "sama5d2-pinfunc.h"
+
+/ {
+    Compatible = "Giant Board";
+
+    fragment@0 {
+        target = <&spi0>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            status = "okay";
+            spidev@0 {
+                compatible = "spidev";
+                spi-max-frequency = <24000000>;
+                reg = <0>;
+            };
+        };
+    };
+};
