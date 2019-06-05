@@ -12,7 +12,7 @@
             #address-cells = <1>;
             #size-cells = <0>;
             status = "okay";
-            cs-gpios = <&pioA PIN_PB7 0>;
+            cs-gpios = <&pioA PIN_PB1 0>;
             spidev@0 {
                 compatible = "spidev";
                 spi-max-frequency = <24000000>;

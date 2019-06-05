@@ -1,3 +1,6 @@
 output/
 tools/
 patches/kernel/*/.external-patches
+patches/overlays/Personal-Overlays/GB-WIFI-ETH-FEATHERWING.dts
+patches/overlays/Personal-Overlays/GB-HANDHELD.dts
+patches/overlays/Personal-Overlays/GB-SPI0-SDCARD.dts
