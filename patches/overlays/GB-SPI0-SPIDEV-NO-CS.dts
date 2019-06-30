@@ -11,6 +11,7 @@
         __overlay__ {
             #address-cells = <1>;
             #size-cells = <0>;
+            cs-gpios = <&pioA PIN_PB2 0>;
             status = "okay";
             spidev@0 {
                 compatible = "spidev";
