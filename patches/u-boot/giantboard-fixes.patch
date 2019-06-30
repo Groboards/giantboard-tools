@@ -105,3 +105,17 @@
  #endif
  
  /* SPL */
+
+--- a/arch/arm/dts/Makefile	2019-06-22 09:09:33.000000000 -0700
++++ b/arch/arm/dts/Makefile	2019-06-30 16:06:51.632612724 -0700
+@@ -711,7 +711,8 @@
+ 	at91-sama5d2_xplained.dtb
+ 
+ dtb-$(CONFIG_TARGET_SAMA5D27_SOM1_EK) += \
+-	at91-sama5d27_som1_ek.dtb
++	at91-sama5d27_som1_ek.dtb \
++    at91-sama5d27_giantboard.dtb
+ 
+ dtb-$(CONFIG_TARGET_SAMA5D2_ICP) += \
+ 	at91-sama5d2_icp.dtb
+
