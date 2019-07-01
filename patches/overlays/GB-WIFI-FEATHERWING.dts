@@ -17,7 +17,7 @@
 		};
 	};
 	
-	fragment@0 {
+	fragment@1 {
 		target = <&spi0>;
 		__overlay__ {
 			#address-cells = <1>;
