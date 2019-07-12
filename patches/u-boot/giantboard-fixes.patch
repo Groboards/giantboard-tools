@@ -1,6 +1,6 @@
---- a/include/configs/sama5d27_som1_ek.h	2019-02-24 16:51:33.824606068 -0700
-+++ b/include/configs/sama5d27_som1_ek.h	2019-02-24 16:53:40.829837602 -0700
-@@ -38,9 +38,89 @@
+--- a/include/configs/sama5d27_som1_ek.h    2019-07-10 10:51:53.000000000 -0700
++++ b/include/configs/sama5d27_som1_ek.h    2019-07-11 12:39:12.000000000 -0700
+@@ -37,9 +37,89 @@
  /* u-boot env in sd/mmc card */
  #define CONFIG_ENV_SIZE		0x4000
  /* bootstrap + u-boot + env in sd card */
@@ -9,102 +9,90 @@
 -				"bootz 0x22000000 - 0x21000000"
 +#define CONFIG_SUPPORT_RAW_INITRD
 +#define CONFIG_EXTRA_ENV_SETTINGS \
-+	"initrd_high=0xffffffff\0" \
-+	"fdt_high=0xffffffff\0" \
-+	"fdtovaddr=0x21800000\0" \
-+	"loadaddr=0x22000000\0" \
-+	"fdtaddr=0x21000000\0" \
-+	"fdtfile=/dtbs/at91-sama5d27_giantboard.dtb\0" \
-+	"enable_uboot_overlays=\0" \
-+	"dtboverlay=\0" \
-+	"dtboverlay1=\0" \
-+	"dtboverlay2=\0" \
-+	"dtboverlay3=\0" \
-+	"dtboverlay4=\0" \
-+	"console=ttyS0,115200\0" \
-+	"optargs=\0" \
-+	"video=\0" \
-+	"mmcdev=0\0" \
-+	"mmcpart=1\0" \
-+	"mmcroot=/dev/mmcblk0p2 ro\0" \
-+	"mmcrootfstype=ext4 rootwait\0" \
-+	"mmcargs=setenv bootargs console=${console} " \
-+		"${optargs} " \
-+		"root=${mmcroot} " \
-+		"rootfstype=${mmcrootfstype} " \
-+		"video=${video}\0" \
-+	"loadbootenv=load mmc ${mmcdev}:${mmcpart} ${loadaddr} uEnv.txt\0" \
-+	"importbootenv=echo Importing environment from mmc (uEnv.txt)...; " \
-+		"env import -t ${loadaddr} ${filesize}\0" \
-+	"loadzimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} zImage\0" \
-+	"loadfdt=load mmc ${mmcdev}:${mmcpart} ${fdtaddr} ${fdtfile}\0" \
-+	"loadoverlay=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay}\0" \
-+	"loadoverlay1=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay1}\0" \
-+	"loadoverlay2=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay2}\0" \
-+	"loadoverlay3=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay3}\0" \
-+	"loadoverlay4=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay4}\0" \
-+	"mmcboot=echo Booting from mmc ...; " \
-+		"run mmcargs; " \
-+		"bootz ${loadaddr} - ${fdtaddr}\0"
++    "initrd_high=0xffffffff\0" \
++    "fdt_high=0xffffffff\0" \
++    "fdtovaddr=0x21800000\0" \
++    "loadaddr=0x22000000\0" \
++    "fdtaddr=0x21000000\0" \
++    "fdtfile=/dtbs/at91-sama5d27_giantboard.dtb\0" \
++    "enable_uboot_overlays=\0" \
++    "dtboverlay=\0" \
++    "dtboverlay1=\0" \
++    "dtboverlay2=\0" \
++    "dtboverlay3=\0" \
++    "dtboverlay4=\0" \
++    "console=ttyS0,115200\0" \
++    "optargs=\0" \
++    "video=\0" \
++    "mmcdev=0\0" \
++    "mmcpart=1\0" \
++    "mmcroot=/dev/mmcblk0p2 ro\0" \
++    "mmcrootfstype=ext4 rootwait\0" \
++    "mmcargs=setenv bootargs console=${console} " \
++        "${optargs} " \
++        "root=${mmcroot} " \
++        "rootfstype=${mmcrootfstype} " \
++        "video=${video}\0" \
++    "loadbootenv=load mmc ${mmcdev}:${mmcpart} ${loadaddr} uEnv.txt\0" \
++    "importbootenv=echo Importing environment from mmc (uEnv.txt)...; " \
++        "env import -t ${loadaddr} ${filesize}\0" \
++    "loadzimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} zImage\0" \
++    "loadfdt=load mmc ${mmcdev}:${mmcpart} ${fdtaddr} ${fdtfile}\0" \
++    "loadoverlay=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay}\0" \
++    "loadoverlay1=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay1}\0" \
++    "loadoverlay2=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay2}\0" \
++    "loadoverlay3=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay3}\0" \
++    "loadoverlay4=load mmc ${mmcdev}:${mmcpart} ${fdtovaddr} ${dtboverlay4}\0" \
++    "mmcboot=echo Booting from mmc ...; " \
++        "run mmcargs; " \
++        "bootz ${loadaddr} - ${fdtaddr}\0"
 +
 +#define CONFIG_BOOTCOMMAND \
-+	"mmc dev ${mmcdev};" \
-+	"if mmc rescan; then " \
-+		"echo SD/MMC found on device ${mmcdev};" \
-+		"if run loadbootenv; then " \
-+			"run importbootenv;" \
-+		"fi;" \
-+		"echo Running default loadzimage ...;" \
-+		"if run loadzimage; then " \
-+			"run loadfdt;" \
-+			"echo Checking for overlays ...;" \
-+			"if test -n $enable_uboot_overlays; then " \
-+				"fdt addr ${fdtaddr};" \
-+				"fdt resize 4096;" \
-+				"if test -n $dtboverlay; then " \
-+					"run loadoverlay;" \
-+					"fdt apply ${fdtovaddr};" \
-+					"echo loaded ${dtboverlay};" \
-+				"fi;" \
-+				"if test -n $dtboverlay1; then " \
-+					"run loadoverlay1;" \
-+					"fdt apply ${fdtovaddr};" \
-+					"echo loaded ${dtboverlay1};" \
-+				"fi;" \
-+				"if test -n $dtboverlay2; then " \
-+					"run loadoverlay2;" \
-+					"fdt apply ${fdtovaddr};" \
-+					"echo loaded ${dtboverlay2};" \
-+				"fi;" \
-+				"if test -n $dtboverlay3; then " \
-+					"run loadoverlay3;" \
-+					"fdt apply ${fdtovaddr};" \
-+					"echo loaded ${dtboverlay3};" \
-+				"fi;" \
-+				"if test -n $dtboverlay4; then " \
-+					"run loadoverlay4;" \
-+					"fdt apply ${fdtovaddr};" \
-+					"echo loaded ${dtboverlay4};" \
-+				"fi;" \
-+			"fi;" \
-+			"run mmcboot;" \
-+		"fi;" \
-+	"fi;"
++    "mmc dev ${mmcdev};" \
++    "if mmc rescan; then " \
++        "echo SD/MMC found on device ${mmcdev};" \
++        "if run loadbootenv; then " \
++            "run importbootenv;" \
++        "fi;" \
++        "echo Running default loadzimage ...;" \
++        "if run loadzimage; then " \
++            "run loadfdt;" \
++            "echo Checking for overlays ...;" \
++            "if test -n $enable_uboot_overlays; then " \
++                "fdt addr ${fdtaddr};" \
++                "fdt resize 4096;" \
++                "if test -n $dtboverlay; then " \
++                    "run loadoverlay;" \
++                    "fdt apply ${fdtovaddr};" \
++                    "echo loaded ${dtboverlay};" \
++                "fi;" \
++                "if test -n $dtboverlay1; then " \
++                    "run loadoverlay1;" \
++                    "fdt apply ${fdtovaddr};" \
++                    "echo loaded ${dtboverlay1};" \
++                "fi;" \
++                "if test -n $dtboverlay2; then " \
++                    "run loadoverlay2;" \
++                    "fdt apply ${fdtovaddr};" \
++                    "echo loaded ${dtboverlay2};" \
++                "fi;" \
++                "if test -n $dtboverlay3; then " \
++                    "run loadoverlay3;" \
++                    "fdt apply ${fdtovaddr};" \
++                    "echo loaded ${dtboverlay3};" \
++                "fi;" \
++                "if test -n $dtboverlay4; then " \
++                    "run loadoverlay4;" \
++                    "fdt apply ${fdtovaddr};" \
++                    "echo loaded ${dtboverlay4};" \
++                "fi;" \
++            "fi;" \
++            "run mmcboot;" \
++        "fi;" \
++    "fi;"
  #endif
  
  #ifdef CONFIG_QSPI_BOOT
-@@ -50,10 +130,7 @@
- #define CONFIG_BOOTCOMMAND		"sf probe 0; "				\
- 					"sf read 0x21000000 0xc0000 0x20000; "	\
- 					"sf read 0x22000000 0xe0000 0x400000; "	\
--					"bootz 0x22000000 - 0x21000000"
--#undef CONFIG_BOOTARGS
--#define CONFIG_BOOTARGS \
--	"console=ttyS0,115200 earlyprintk root=/dev/mmcblk0p2 rw rootwait"
-+					"bootz 0x22000000 - 0x21000000"			
- #endif
- 
- /* SPL */
 
 --- a/arch/arm/dts/Makefile	2019-06-22 09:09:33.000000000 -0700
 +++ b/arch/arm/dts/Makefile	2019-06-30 16:06:51.632612724 -0700
