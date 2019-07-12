@@ -15,7 +15,7 @@ cross_make="make -C ${linux_dir} ARCH=arm CROSS_COMPILE=${CC}"
 
 # TODO: make these user-specifiable defaults
 patches=""
-release="${release:-v5.0}"
+release="${release:-v5.2}"
 
 echo "Building kernel release: ${release}"
 mkdir -p "${build_dir}"
@@ -60,10 +60,11 @@ process_options()
 process_options "$@"
 
 if [ ! -d "${linux_dir}" ]; then
-	echo "downloading latest kernel from github.."
+	echo "Getting ${release} kernel from https://github.com/torvalds/linux.."
 	# TODO: allow cloning of a single depth/release
 	git -C ${build_dir} clone https://github.com/torvalds/linux.git
-	# git -C ${build_dir} clone --depth=1 --branch ${release} https://github.com/torvalds/linux.git
+    git -C ${linux_dir} checkout ${release} -b tmp
+	#git -C ${build_dir} clone --depth=1 --branch ${release} https://github.com/torvalds/linux.git
 fi
 
 # check if patches have already been applied, if so, get list of patchsets

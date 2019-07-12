@@ -7,6 +7,8 @@ build_dir="${output_dir}/build"
 uboot_bin="${output_dir}/u-boot"
 uboot_dir="${build_dir}/u-boot"
 
+release="${release:v2019.07}"
+
 # specify compiler 
 CC=`pwd`/tools/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
 
@@ -16,7 +18,7 @@ mkdir -p "${uboot_bin}"
 
 # clone u-boot
 git -C ${build_dir} clone https://github.com/u-boot/u-boot
-
+git -C ${uboot_dir} checkout ${release} -b tmp
 echo "patching.."
 
 cp patches/u-boot/at91-sama5d27_giantboard.dts ${uboot_dir}/arch/arm/dts/
