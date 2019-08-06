@@ -7,7 +7,7 @@ build_dir="${output_dir}/build"
 uboot_bin="${output_dir}/u-boot"
 uboot_dir="${build_dir}/u-boot"
 
-release="${release:v2019.07}"
+release="${release:-v2019.07}"
 
 # specify compiler 
 CC=`pwd`/tools/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
