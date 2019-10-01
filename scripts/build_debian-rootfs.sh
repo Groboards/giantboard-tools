@@ -11,7 +11,9 @@ if [ ! -d "${rootfs_dir}" ]; then
 fi
 
 debootstrap \
-		--include ca-certificates,python3-setuptools,python3-pip,sudo,connman \
+	--include ca-certificates,sudo,python3,python3-setuptools,\
+	  python3-pip,python3-dev,python3-pil,usbutils,net-tools, \
+	  i2c-tools,parted,wpasupplicant,hostapd,connman \
         --arch armhf \
         --foreign stretch \
         ${rootfs_dir} \
