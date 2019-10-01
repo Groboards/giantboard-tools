@@ -1,12 +1,13 @@
---- a/drivers/staging/wilc1000/Kconfig 2019-03-29 12:11:43.895241556 -0700
-+++ b/drivers/staging/wilc1000/Kconfig 2019-03-29 12:11:43.063230669 -0700
-@@ -1,4 +1,4 @@
+--- a/drivers/staging/wilc1000/Kconfig	2019-09-27 12:33:23.613988269 -0700
++++ b/drivers/staging/wilc1000/Kconfig	2019-09-27 12:33:35.570014794 -0700
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
 -config WILC
 +config WILC1000
  	tristate
  
  config WLAN_VENDOR_MCHP
-@@ -10,10 +10,10 @@
+@@ -11,10 +11,10 @@
  
  if WLAN_VENDOR_MCHP
  
@@ -19,7 +20,7 @@
  	help
  	  This module adds support for the SDIO interface of adapters using
  	  WILC1000 & WILC3000 chipset. The Atmel WILC1000 SDIO is a full speed interface.
-@@ -25,10 +25,10 @@
+@@ -26,10 +26,10 @@
  	  this if your platform is using the SDIO bus.
  	  WILC3000 additionally supports BT 4.0 and BLE modes.
  
@@ -32,7 +33,7 @@
  	help
  	  This module adds support for the SPI interface of adapters using
  	  WILC1000 & WILC3000 chipset. The Atmel WILC1000 has a Serial Peripheral
-@@ -39,9 +39,9 @@
+@@ -40,9 +40,9 @@
  	  VDDIO. Select this if your platform is using the SPI bus.
  	  WILC3000 additionally supports BT 4.0 and BLE modes.
  
