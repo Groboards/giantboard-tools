@@ -62,8 +62,8 @@ EOT
 
 # Update and install stuff and things
 apt-get update
-apt-get install ca-certificates sudo python3 python3-pip python3-dev \
- python3-pil usbutils net-tools i2c-tools parted wpasupplicant hostapd -y
+#apt-get install ca-certificates sudo python3 python3-pip python3-dev \
+ #python3-pil usbutils net-tools i2c-tools parted wpasupplicant hostapd -y
 
 pip3 install wheel
 
