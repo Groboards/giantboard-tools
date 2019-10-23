@@ -11,19 +11,26 @@ if [ ! -d "${rootfs_dir}" ]; then
 fi
 
 debootstrap \
-	--include ca-certificates,sudo,python3,python3-setuptools,python3-pip,python3-dev,python3-pil,usbutils,net-tools,i2c-tools,parted,wpasupplicant,hostapd,connman \
+        --include ca-certificates,sudo,python3,python3-setuptools,python3-pip,python3-dev,python3-pil,usbutils,net-tools,i2c-tools,parted,wpasupplicant,hostapd,connman \
         --arch armhf \
         --foreign stretch \
         ${rootfs_dir} \
         http://ftp.us.debian.org/debian/
 
 cp /usr/bin/qemu-arm-static ${rootfs_dir}/usr/bin/
+
 cp scripts/chroot.sh ${rootfs_dir}
+
 cp ${patch_dir}/requirements.txt ${rootfs_dir}
 cp ${patch_dir}/grow_sd.sh ${rootfs_dir}/usr/bin/
 cp ${patch_dir}/batt_service.sh ${rootfs_dir}/usr/bin/
+cp ${patch_dir}/usbgadget-serial ${rootfs_dir}/usr/bin/
+cp ${patch_dir}/usbgadget-serial-eth ${rootfs_dir}/usr/bin/
+
 mkdir -p ${rootfs_dir}/lib/systemd/system/
 cp ${patch_dir}/batt.service ${rootfs_dir}/lib/systemd/system/
+cp ${patch_dir}/usbgadget-serial.service ${rootfs_dir}/lib/systemd/system/
+cp ${patch_dir}/usbgadget-serial-eth.service ${rootfs_dir}/lib/systemd/system/
 
 mkdir -p ${rootfs_dir}/run
 chmod -R 755 ${rootfs_dir}/run
