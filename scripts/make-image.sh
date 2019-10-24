@@ -13,37 +13,38 @@ overlays_dir="${output_dir}/overlays"
 
 
 IMAGE_FILE=giantboard.img
-SIZE_IN_MB=850
+SIZE_IN_MB=1000
 
 # Create empty image file
 dd if=/dev/zero of=${IMAGE_FILE} bs=1M count=${SIZE_IN_MB}
 
-losetup /dev/loop0 ${IMAGE_FILE}
+# Find a free loop
+ld=$(losetup --show -f ${IMAGE_FILE})
 
 # create partition layout
-sudo sfdisk /dev/loop0 <<-__EOF__
+sudo sfdisk ${ld} <<-__EOF__
 1M,48M,0xE,*
 49M,,,-
 __EOF__
 
-# add the partitions to loop0
+# add the partitions to the loop
 # unmount and remount so losetup can rescan the paritions
-losetup -D
-losetup --partscan /dev/loop0 ${IMAGE_FILE}
+losetup -d ${ld}
+losetup --partscan ${ld} ${IMAGE_FILE}
 
 # Create boot partition 
-mkfs.vfat -F 16 /dev/loop0p1 -n BOOT
+mkfs.vfat -F 16 ${ld}p1 -n BOOT
 
 # create rootfs partition
-mkfs.ext4 /dev/loop0p2 -L rootfs
+mkfs.ext4 ${ld}p2 -L rootfs
 
 # make dirs for mounting
 mkdir -p /media/boot/
 mkdir -p /media/rootfs/
 
 # mount the dirs
-mount /dev/loop0p1 /media/boot/
-mount /dev/loop0p2 /media/rootfs/
+mount ${ld}p1 /media/boot/
+mount ${ld}p2 /media/rootfs/
 
 # copy at91 bootloader and u-boot
 cp -v ${at91boot_bin}/BOOT.BIN /media/boot/BOOT.BIN
@@ -76,6 +77,6 @@ cp -v ${patch_dir}/uEnv.txt /media/boot/
 sync
 umount /media/boot
 umount /media/rootfs
-losetup -D
+losetup -d ${ld}
 
 echo "done making ${IMAGE_FILE}"
