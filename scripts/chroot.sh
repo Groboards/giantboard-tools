@@ -62,6 +62,7 @@ EOT
 
 # Update and install stuff and things
 apt-get update
+
 #apt-get install ca-certificates sudo python3 python3-pip python3-dev \
  #python3-pil usbutils net-tools i2c-tools parted wpasupplicant hostapd -y
 
@@ -70,8 +71,6 @@ pip3 install wheel
 # Setup the fstab for the microSD
 sh -c "echo '/dev/mmcblk0p2  /  auto  errors=remount-ro  0  1' >> /etc/fstab"
 sh -c "echo '/dev/mmcblk0p1  /boot/uboot  auto  defaults  0  2' >> /etc/fstab"
-
-echo ${rfs_hostname} > /etc/hostname
 
 # Add the user, set up groups and permissions
 add_user
@@ -86,21 +85,26 @@ cat > /etc/motd <<'EOF'
 
 EOF
 
-sh -c "echo '127.0.0.1       giantboard' >> /etc/hosts"
+# Set new hostname
+echo ${rfs_hostname} > /etc/hostname
+
+# Set new hostname in hosts
+sed -i -e 's/localhost/giantboard/g' /etc/hosts
 
 # Enable the battery service
 chmod +x /usr/bin/batt_service.sh
 systemctl enable batt.service
 
-# chmod all the usbgadget scripts
+# Enable the serial gadget service
 chmod +x /usr/bin/usbgadget-serial
 chmod +x /usr/bin/usbgadget-serial-eth
-
-# Enable the serial gadget service
 systemctl enable usbgadget-serial.service
 
 # Make grow_sd.sh executable
 chmod +x /usr/bin/grow_sd.sh
+
+# enable usb getty
+#systemctl enable getty@ttyGS0.service # Enabled in usbgadget systemd service
 
 # Download the script to build libgpiod and build it
 wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/libgpiod.sh
