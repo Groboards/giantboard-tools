@@ -53,17 +53,29 @@ fi
 if [ ! -d "${rootfs_dir}" ]; then
 	mkdir -p ${rootfs_dir}
 	cp -rp ${min_rootfs_dir}/. ${rootfs_dir}
-
-	mkdir -p ${rootfs_dir}/lib/systemd/system/
-	cp ${patch_dir}/usbgadget-serial-eth-ms.service ${rootfs_dir}/lib/systemd/system/
 fi
 
-# copy over the usbgadget script everytime incase of updates
-cp ${patch_dir}/usbgadget-serial-eth-ms ${rootfs_dir}/usr/bin/
+# Add chroot script
+cp scripts/chroot.sh ${rootfs_dir}
 
+# Add qemu-arm-static to rootfs
 cp /usr/bin/qemu-arm-static ${rootfs_dir}/usr/bin/
 
-cp scripts/chroot.sh ${rootfs_dir}
+# Add services
+mkdir -p ${rootfs_dir}/lib/systemd/system/
+
+cp ${patch_dir}/usbgadget-serial ${rootfs_dir}/usr/bin/
+cp ${patch_dir}/usbgadget-serial.service ${rootfs_dir}/lib/systemd/system/
+
+cp ${patch_dir}/usbgadget-serial-eth ${rootfs_dir}/usr/bin/
+cp ${patch_dir}/usbgadget-serial-eth.service ${rootfs_dir}/lib/systemd/system/
+
+cp ${patch_dir}/usbgadget-serial-eth-ms ${rootfs_dir}/usr/bin/
+cp ${patch_dir}/usbgadget-serial-eth-ms.service ${rootfs_dir}/lib/systemd/system/
+
+cp ${patch_dir}/batt.service ${rootfs_dir}/lib/systemd/system
+cp ${patch_dir}/batt_service.sh ${rootfs_dir}/usr/bin/
+
 
 if [ ! -d "${rootfs_dir}/run" ]; then
 	mkdir -p ${rootfs_dir}/run
