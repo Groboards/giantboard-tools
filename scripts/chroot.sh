@@ -6,7 +6,11 @@ export LANG=C
 
 
 # Update and install stuff and things
-apt-get update
+apt-get update && \
+apt-get install -y ca-certificates sudo python3 \
+				   python3-setuptools python3-pip \
+				   python3-dev python3-pil wpasupplicant \
+				   hostapd connman
 
 
 # Install wheel now for other packages
