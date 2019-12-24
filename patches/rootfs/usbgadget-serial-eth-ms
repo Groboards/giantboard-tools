@@ -20,6 +20,7 @@ if [ -d "${gadgetfs}/g1" ]; then
 	exit 0
 fi
 
+sleep 3
 
 mkdir -p "${gadget_dir}"
 
