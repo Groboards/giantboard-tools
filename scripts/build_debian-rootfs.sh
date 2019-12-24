@@ -58,6 +58,9 @@ fi
 # Add chroot script
 cp scripts/chroot.sh ${rootfs_dir}
 
+# Add requirements.txt to install all circuitpython packages
+cp ${patch_dir}/requirements.txt ${rootfs_dir}
+
 # Add qemu-arm-static to rootfs
 cp /usr/bin/qemu-arm-static ${rootfs_dir}/usr/bin/
 
@@ -90,6 +93,7 @@ mount -t devpts devpts "${rootfs_dir}/dev/pts"
 
 chroot "${rootfs_dir}" /bin/bash -e chroot.sh
 rm ${rootfs_dir}/chroot.sh
+rm ${rootfs_dir}/requirements.txt
 sync
 
 umount -fl "${rootfs_dir}/dev/pts"
