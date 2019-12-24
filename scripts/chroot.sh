@@ -22,14 +22,6 @@ sh -c "echo '/dev/mmcblk0p2  /  auto  errors=remount-ro  0  1' >> /etc/fstab"
 sh -c "echo '/dev/mmcblk0p1  /boot/uboot  auto  defaults  0  2' >> /etc/fstab"
 
 
-# Set new hostname
-echo ${rfs_hostname} > /etc/hostname
-
-
-# Set new hostname in hosts
-sed -i -e 's/localhost/giantboard/g' /etc/hosts
-
-
 # Enable the battery service
 if (systemctl -q is-enabled batt.service); then
 	echo "Log: (chroot) battery service already enabled"
