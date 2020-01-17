@@ -30,9 +30,9 @@
 				reg = <0>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&wififeatherwing_pins>;
+				irq-gpios = <&pioA PIN_PB3 0>; 
 				reset-gpios = <&pioA PIN_PB0 0>;
 				chip_en-gpios = <&pioA PIN_PD13 0>;
-				irq-gpios = <&pioA PIN_PB3 0>; 
 				status = "okay";
 			};
 		};
