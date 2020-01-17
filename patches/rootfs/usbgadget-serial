@@ -29,9 +29,13 @@ fi
 
 echo "${id_vendor}" > "${gadget_dir}/idVendor"
 echo "${id_product}" > "${gadget_dir}/idProduct"
-echo "0x0100" > "${gadget_dir}/bcdDevice"
-echo "0x0200" > "${gadget_dir}/bcdUSB"
 
+# Windows Device descriptors for composite device
+echo "0x0200" > "${gadget_dir}/bcdUSB"
+echo "0xEF" > "${gadget_dir}/bDeviceClass"
+echo "0x02" > "${gadget_dir}/bDeviceSubClass"
+echo "0x01" > "${gadget_dir}/bDeviceProtocol"
+echo "0x3066" > "${gadget_dir}/bcdDevice"
 
 mkdir -p "${gadget_dir}/strings/0x409"
 echo "${serialnumber}" > "${gadget_dir}/strings/0x409/serialnumber"
