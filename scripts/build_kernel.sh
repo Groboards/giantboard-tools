@@ -32,6 +32,8 @@ if [ ! -d "${linux_dir}" ]; then
     git -C ${linux_dir} checkout ${release} -b tmp
 fi
 
+# always do a checkout to see if chosen kernel version has changed
+git -C ${linux_dir} checkout ${release} -b tmp
 
 export KBUILD_BUILD_USER="giantboard"
 export KBUILD_BUILD_HOST="giantboard"
