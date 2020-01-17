@@ -19,6 +19,8 @@ if [ -d "${gadgetfs}/g1" ]; then
 	exit 0
 fi
 
+sleep 3
+
 mkdir -p "${gadget_dir}"
 
 if [ ! -d "${gadget_dir}" ]; then
@@ -46,6 +48,8 @@ mkdir -p "${gadget_dir}/functions/acm.GS0"
 ln -s "${gadget_dir}/functions/acm.GS0" "${gadget_dir}/configs/c.1"
 
 echo "300000.gadget" > "${gadget_dir}/UDC"
+
+sleep 1
 
 systemctl start getty@ttyGS0
 

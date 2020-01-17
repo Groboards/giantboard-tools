@@ -53,8 +53,9 @@ echo "${id_product}" > "${gadget_dir}/idProduct"
 
 # Windows Device descriptors for composite device
 echo "0x0200" > "${gadget_dir}/bcdUSB"
-echo "0x02" > "${gadget_dir}/bDeviceClass"
-echo "0x00" > "${gadget_dir}/bDeviceSubClass"
+echo "0xEF" > "${gadget_dir}/bDeviceClass"
+echo "0x02" > "${gadget_dir}/bDeviceSubClass"
+echo "0x01" > "${gadget_dir}/bDeviceProtocol"
 echo "0x3066" > "${gadget_dir}/bcdDevice"
 
 # Some more windows specific device descriptors to convince windows to load the proper driver
