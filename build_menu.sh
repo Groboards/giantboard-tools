@@ -8,10 +8,12 @@ echo "Build Options:"
 echo "1: Setup Build Environment.(Run on first setup.)"
 echo "2: Build at91bootstrap"
 echo "3: Build u-boot"
-echo "4: Build kernel"
-echo "5: Build debian rootfs"
-echo "6: Build device overlays"
-echo "7: Make bootable device image"
+echo "4: Build kernel/clean"
+echo "5: Rebuild kernel"
+echo "6: Build debian rootfs"
+echo "7: Chroot into rootfs"
+echo "8: Build device overlays"
+echo "9: Make bootable device image"
 	
 setup_env () {
 	chmod +x scripts/setup_env.sh
@@ -34,6 +36,10 @@ build_uboot () {
 }
 
 build_kernel () {
+	scripts/build_kernel.sh clean
+}
+
+rebuild_kernel () {
 	scripts/build_kernel.sh
 }
 
@@ -43,6 +49,10 @@ build_debianrootfs () {
 
 build_overlays () {
 	scripts/build_overlays.sh
+}
+
+chroot_interactive () {
+	scripts/chroot-interactive.sh
 }
 
 make_image () {
@@ -72,17 +82,27 @@ case $option in
 		echo "Preparing to build kernel.."
 		build_kernel
 		;;
-	5) 
+	5)
+		clear
+		echo "Preparing to rebuild kernel.."
+		rebuild_kernel
+		;;
+	6) 
 		clear
 		echo "Preparing to build rootfs.."
 		build_debianrootfs
 		;;
-	6) 
+	7)
+		clear
+		echo "Preparing to chroot.."
+		chroot_interactive
+		;;
+	8) 
 		clear
 		echo "Building overlays.."
 		build_overlays
 		;;
-	7) 
+	9) 
 		clear
 		echo "Preparing to make image.."
 		make_image

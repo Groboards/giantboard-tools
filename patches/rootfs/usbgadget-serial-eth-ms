@@ -1,0 +1,113 @@
+#!/bin/bash
+
+gadgetfs="/sys/kernel/config/usb_gadget"
+
+gadget_dir="${gadgetfs}/g1"
+
+id_vendor="0x1d6b"
+id_product="0x0104"
+serialnumber="0000"
+manufacturer="Groboards"
+product="Giant Board"
+
+
+if [ ! -d "${gadgetfs}" ]; then
+	modprobe libcomposite
+fi
+
+
+if [ -d "${gadgetfs}/g1" ]; then
+	exit 0
+fi
+
+sleep 3
+
+mkdir -p "${gadget_dir}"
+
+
+if [ ! -d "${gadget_dir}" ]; then
+	exit 1
+fi
+
+
+if [ -f "/etc/usbgadget.conf" ]; then
+	source /etc/usbgadget.conf
+fi
+
+
+if [ -z "${dmac}" ]; then
+	dmac=$(printf '%02x' $((0x$(od /dev/urandom -N1 -t x1 -An | cut -c 2-) & 0xFE | 0x02)); od /dev/urandom -N5 -t x1 -An | sed 's/ /:/g')
+	echo "Generated new device mac: ${dmac}"
+	echo "dmac=\"${dmac}\"" >> /etc/usbgadget.conf
+fi
+
+
+if [ -z "${hmac}" ]; then
+	hmac=$(printf '%02x' $((0x$(od /dev/urandom -N1 -t x1 -An | cut -c 2-) & 0xFE | 0x02)); od /dev/urandom -N5 -t x1 -An | sed 's/ /:/g')
+	echo "Generated new host mac: ${hmac}"
+	echo "hmac=\"${hmac}\"" >> /etc/usbgadget.conf
+fi
+
+
+echo "${id_vendor}" > "${gadget_dir}/idVendor"
+echo "${id_product}" > "${gadget_dir}/idProduct"
+
+# Windows Device descriptors for composite device
+echo "0x0200" > "${gadget_dir}/bcdUSB"
+echo "0xEF" > "${gadget_dir}/bDeviceClass"
+echo "0x02" > "${gadget_dir}/bDeviceSubClass"
+echo "0x01" > "${gadget_dir}/bDeviceProtocol"
+echo "0x3066" > "${gadget_dir}/bcdDevice"
+
+
+# Some more windows specific device descriptors to convince windows to load the proper driver
+echo "1" > "${gadget_dir}/os_desc/use"
+echo "0xcd" > "${gadget_dir}/os_desc/b_vendor_code"
+echo "MSFT100" > "${gadget_dir}/os_desc/qw_sign"
+
+
+mkdir -p "${gadget_dir}/strings/0x409"
+echo "${serialnumber}" > "${gadget_dir}/strings/0x409/serialnumber"
+echo "${manufacturer}" > "${gadget_dir}/strings/0x409/manufacturer"
+echo "${product}" > "${gadget_dir}/strings/0x409/product"
+
+
+mkdir -p "${gadget_dir}/configs/c.1"
+mkdir -p "${gadget_dir}/configs/c.1/strings/0x409"
+echo "CDC 2xACM+Mass Storage+RNDIS" > "${gadget_dir}/configs/c.1/strings/0x409/configuration"
+
+
+# Add the functions
+mkdir -p "${gadget_dir}/functions/acm.GS0"
+mkdir -p "${gadget_dir}/functions/rndis.usb0"
+mkdir -p "${gadget_dir}/functions/mass_storage.giantboard"
+
+
+# Setup the LUN for mass storage
+echo "/dev/mmcblk0p1" > "${gadget_dir}/functions/mass_storage.giantboard/lun.0/file"
+echo 0 > "${gadget_dir}/functions/mass_storage.giantboard/stall"
+echo 0 > "${gadget_dir}/functions/mass_storage.giantboard/lun.0/cdrom"
+echo 0 > "${gadget_dir}/functions/mass_storage.giantboard/lun.0/nofua"
+echo 1 > "${gadget_dir}/functions/mass_storage.giantboard/lun.0/removable"
+echo "GiantBoard" > "${gadget_dir}/functions/mass_storage.giantboard/lun.0/inquiry_string"
+
+
+# Setup RNDIS MAC
+echo "RNDIS" > "${gadget_dir}/functions/rndis.usb0/os_desc/interface.rndis/compatible_id"
+echo "5162001" > "${gadget_dir}/functions/rndis.usb0/os_desc/interface.rndis/sub_compatible_id"
+echo ${hmac} > "${gadget_dir}/functions/rndis.usb0/host_addr"
+echo ${dmac} > "${gadget_dir}/functions/rndis.usb0/dev_addr"
+
+
+# Link the functions
+ln -s "${gadget_dir}/functions/rndis.usb0" "${gadget_dir}/configs/c.1"
+ln -s "${gadget_dir}/configs/c.1" "${gadget_dir}/os_desc"
+ln -s "${gadget_dir}/functions/acm.GS0" "${gadget_dir}/configs/c.1"
+ln -s "${gadget_dir}/functions/mass_storage.giantboard" "${gadget_dir}/configs/c.1"
+
+echo "300000.gadget" > "${gadget_dir}/UDC"
+
+sleep 1
+
+dhclient -v usb0
+systemctl start getty@ttyGS0

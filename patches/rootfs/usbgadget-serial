@@ -1,0 +1,59 @@
+#!/bin/bash
+
+gadgetfs="/sys/kernel/config/usb_gadget"
+
+gadget_dir="${gadgetfs}/g1"
+
+id_vendor="0x1d6b"
+id_product="0x0104"
+serialnumber="0000"
+manufacturer="Groboards"
+product="Giant Board"
+
+
+if [ ! -d "${gadgetfs}" ]; then
+	modprobe libcomposite
+fi
+
+if [ -d "${gadgetfs}/g1" ]; then
+	exit 0
+fi
+
+sleep 3
+
+mkdir -p "${gadget_dir}"
+
+if [ ! -d "${gadget_dir}" ]; then
+	exit 1
+fi
+
+echo "${id_vendor}" > "${gadget_dir}/idVendor"
+echo "${id_product}" > "${gadget_dir}/idProduct"
+
+# Windows Device descriptors for composite device
+echo "0x0200" > "${gadget_dir}/bcdUSB"
+echo "0xEF" > "${gadget_dir}/bDeviceClass"
+echo "0x02" > "${gadget_dir}/bDeviceSubClass"
+echo "0x01" > "${gadget_dir}/bDeviceProtocol"
+echo "0x3066" > "${gadget_dir}/bcdDevice"
+
+mkdir -p "${gadget_dir}/strings/0x409"
+echo "${serialnumber}" > "${gadget_dir}/strings/0x409/serialnumber"
+echo "${manufacturer}" > "${gadget_dir}/strings/0x409/manufacturer"
+echo "${product}" > "${gadget_dir}/strings/0x409/product"
+
+mkdir -p "${gadget_dir}/configs/c.1"
+mkdir -p "${gadget_dir}/configs/c.1/strings/0x409"
+
+echo "ACM" > "${gadget_dir}/configs/c.1/strings/0x409/configuration"
+
+mkdir -p "${gadget_dir}/functions/acm.GS0"
+
+ln -s "${gadget_dir}/functions/acm.GS0" "${gadget_dir}/configs/c.1"
+
+echo "300000.gadget" > "${gadget_dir}/UDC"
+
+sleep 1
+
+systemctl start getty@ttyGS0
+

@@ -1,0 +1,10 @@
+[Unit]
+Description=GiantBoard USB Gadget
+Before=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/usbgadget-serial
+
+[Install]
+WantedBy=multi-user.target

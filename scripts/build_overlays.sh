@@ -29,7 +29,7 @@ declare -a overlays=("GB-24LCD-FEATHERWING"
 
 for i in "${overlays[@]}"
 do
-	cpp -nostdinc -I include -undef -x assembler-with-cpp ${patch_dir}/"$i".dts | dtc -@ -I dts -O dtb -o ${overlays_dir}/"$i".dtbo
+	cpp -Iinclude -E -P -x assembler-with-cpp ${patch_dir}/"$i".dts | dtc -@ -I dts -O dtb -o ${overlays_dir}/"$i".dtbo
 done
 
 echo "done building.."
