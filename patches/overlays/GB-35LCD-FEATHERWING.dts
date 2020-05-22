@@ -25,7 +25,7 @@
 			cs-gpios = <&pioA PIN_PB1 0>;
 			status = "okay";
 			tftfeatherwing: tftfeatherwing@0{
-				compatible = "adafruit,yx350hv15", "himax,hx8357d";
+				compatible = "himax,hx8357d";
 				reg = <0>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&tftfeatherwing_pins>;
