@@ -1,0 +1,64 @@
+/dts-v1/;
+/plugin/;
+
+#include "sama5d2-pinfunc.h"
+
+/ {
+	compatible = "Giant Board";
+
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			tftfeatherwing_pins: tftfeatherwing_pins {
+				pinmux = <PIN_PB7__GPIO>,
+						 <PIN_PB5__GPIO>;
+				bias-disable;
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&spi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			cs-gpios = <&pioA PIN_PB1 0>;
+			status = "okay";
+			tftfeatherwing: tftfeatherwing@0{
+				compatible = "ilitek,ili9341";
+				reg = <0>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&tftfeatherwing_pins>;
+				
+				spi-max-frequency = <32000000>;
+				rotate = <270>;
+				fps = <40>;
+				bgr;
+				buswidth = <8>;
+				dc-gpios = <&pioA PIN_PB7 0>;
+				reset-gpios = <&pioA PIN_PB5 0>;
+				debug = <0>;
+			};
+		};
+	};
+	
+	fragment@2 {
+		target = <&i2c0>;
+		
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			
+			bbq10pmod@1f {
+				compatible = "arturo182,bbq10pmod";
+				
+				reg = <0x1f>;
+				interrupt-parent = <&pioA>;		
+				irq-gpio = <&pioA PIN_PD31 0x2>;
+				interrupts = <PIN_PD31 2>;
+				interrupt-controller;
+			};
+		};
+	};
+};

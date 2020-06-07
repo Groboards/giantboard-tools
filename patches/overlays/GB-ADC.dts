@@ -1,0 +1,12 @@
+/dts-v1/;
+/plugin/;
+/ {
+    Compatible = "Giant Board";
+
+    fragment@0 {
+        target = <&adc>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
+};

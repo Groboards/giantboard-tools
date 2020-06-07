@@ -11,6 +11,7 @@ mkdir -p "${overlays_dir}"
 # overlays array
 declare -a overlays=("GB-24LCD-FEATHERWING" 
 					"GB-35LCD-FEATHERWING"
+					"GB-ADC"
 					"GB-ETHERNET-FEATHERWING"
 					"GB-I2C0"
 					"GB-I2S0"
