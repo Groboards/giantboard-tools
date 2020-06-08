@@ -56,6 +56,9 @@ else
 	systemctl enable usbgadget-serial-eth-ms.service
 fi
 
+# Make other services executable
+chmod +x /usr/bin/usbgadget-serial-eth
+chmod +x /usr/bin/usbgadget-serial
 
 # Make grow_sd.sh executable
 chmod +x /usr/bin/grow_sd.sh
