@@ -15,6 +15,7 @@ if [ ! -d "${gadgetfs}" ]; then
 	modprobe libcomposite
 fi
 
+
 if [ -d "${gadgetfs}/g1" ]; then
 	exit 0
 fi
@@ -23,9 +24,16 @@ sleep 3
 
 mkdir -p "${gadget_dir}"
 
+
 if [ ! -d "${gadget_dir}" ]; then
 	exit 1
 fi
+
+
+if [ -f "/etc/usbgadget.conf" ]; then
+	source /etc/usbgadget.conf
+fi
+
 
 echo "${id_vendor}" > "${gadget_dir}/idVendor"
 echo "${id_product}" > "${gadget_dir}/idProduct"
@@ -37,18 +45,30 @@ echo "0x02" > "${gadget_dir}/bDeviceSubClass"
 echo "0x01" > "${gadget_dir}/bDeviceProtocol"
 echo "0x3066" > "${gadget_dir}/bcdDevice"
 
+
+# Some more windows specific device descriptors to convince windows to load the proper driver
+echo "1" > "${gadget_dir}/os_desc/use"
+echo "0xcd" > "${gadget_dir}/os_desc/b_vendor_code"
+echo "MSFT100" > "${gadget_dir}/os_desc/qw_sign"
+
+
 mkdir -p "${gadget_dir}/strings/0x409"
 echo "${serialnumber}" > "${gadget_dir}/strings/0x409/serialnumber"
 echo "${manufacturer}" > "${gadget_dir}/strings/0x409/manufacturer"
 echo "${product}" > "${gadget_dir}/strings/0x409/product"
 
+
 mkdir -p "${gadget_dir}/configs/c.1"
 mkdir -p "${gadget_dir}/configs/c.1/strings/0x409"
+echo "ACM Serial" > "${gadget_dir}/configs/c.1/strings/0x409/configuration"
 
-echo "ACM" > "${gadget_dir}/configs/c.1/strings/0x409/configuration"
 
+# Add the functions
 mkdir -p "${gadget_dir}/functions/acm.GS0"
 
+
+# Link the functions
+ln -s "${gadget_dir}/configs/c.1" "${gadget_dir}/os_desc"
 ln -s "${gadget_dir}/functions/acm.GS0" "${gadget_dir}/configs/c.1"
 
 echo "300000.gadget" > "${gadget_dir}/UDC"
