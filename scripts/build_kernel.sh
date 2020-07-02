@@ -1,5 +1,5 @@
 #!/bin/bash -e
-CC="$(pwd)/tools/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-"
+CC="$(pwd)/tools/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-"
 
 # directory variables for easier maintainability
 output_dir="$(pwd)/output"
