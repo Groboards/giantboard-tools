@@ -52,13 +52,13 @@ if (systemctl -q is-enabled usbgadget-serial-eth-ms.service); then
 	echo "Log: (chroot) usb gadget already enabled"
 else
 	echo "Log: (chroot) enabling usbgadget service"
-	chmod +x /usr/bin/usbgadget-serial-eth-ms
-	systemctl enable usbgadget-serial-eth-ms.service
+	chmod +x /usr/bin/usbgadget-serial
+	systemctl enable usbgadget-serial.service
 fi
 
 # Make other services executable
 chmod +x /usr/bin/usbgadget-serial-eth
-chmod +x /usr/bin/usbgadget-serial
+chmod +x /usr/bin/usbgadget-serial-eth-ms
 
 # Make grow_sd.sh executable
 chmod +x /usr/bin/grow_sd.sh
