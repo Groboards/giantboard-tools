@@ -31,6 +31,7 @@ add_user () {
 	echo "Defaults	env_keep += \"NODE_PATH\"" >/etc/sudoers.d/admin
 	echo "%admin ALL=(ALL:ALL) ALL" >>/etc/sudoers.d/admin
 	chmod 0440 /etc/sudoers.d/admin
+	chmod u+s /bin/ping
 	
 	pass_crypt=$(perl -le "print crypt("${rfs_password}", "groboards")")
 	useradd -G "${default_groups}" -s /bin/bash -m -p ${pass_crypt} -c "${rfs_fullname}" ${rfs_username}
@@ -52,12 +53,11 @@ add_user () {
 
 # Add sources
 cat <<EOT > /etc/apt/sources.list
-deb http://ftp.debian.org/debian stretch main contrib non-free
-deb-src http://ftp.debian.org/debian stretch main contrib non-free
-deb http://ftp.debian.org/debian stretch-updates main contrib non-free
-deb-src http://ftp.debian.org/debian stretch-updates main contrib non-free
-deb http://security.debian.org/debian-security stretch/updates main contrib non-free
-deb-src http://security.debian.org/debian-security stretch/updates main contrib non-free
+deb http://deb.debian.org/debian buster main contrib non-free
+deb-src http://deb.debian.org/debian buster main contrib non-free
+
+deb http://security.debian.org/debian-security buster/updates main contrib
+deb-src http://security.debian.org/debian-security buster/updates main contrib
 EOT
 
 # Update sources

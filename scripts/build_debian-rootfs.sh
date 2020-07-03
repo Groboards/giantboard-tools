@@ -15,7 +15,7 @@ if [ ! -d "${min_rootfs_dir}" ]; then
 	debootstrap \
 		--include usbutils,net-tools,i2c-tools,parted,sudo \
 		--arch armhf \
-		--foreign stretch \
+		--foreign buster \
 		${min_rootfs_dir} \
 		http://ftp.us.debian.org/debian/
 	
