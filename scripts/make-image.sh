@@ -14,7 +14,6 @@ overlays_dir="${output_dir}/overlays"
 
 IMAGE_FILE=giantboard.img
 
-SIZE_IN_MB=1000
 SIZE_IN_MB=$(( $(sudo du ./output/rootfs -s | tr -dc '0-9') / 1000 + 256 ))
 echo "creating $SIZE_IN_MB MB image"
 
