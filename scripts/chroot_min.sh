@@ -60,6 +60,9 @@ deb http://security.debian.org/debian-security buster/updates main contrib
 deb-src http://security.debian.org/debian-security buster/updates main contrib
 EOT
 
+# Enable the dns resolver service. For some reason its disabled in the debian 10 default rootfs
+systemctl enable systemd-resolved.service
+
 # Update sources
 echo "Log: (chroot_min) apt-get udpating rootfs packages."
 apt-get update
