@@ -33,6 +33,8 @@ pip3 install wheel
 
 
 # Setup the fstab for the microSD
+rm /etc/fstab
+touch /etc/fstab
 sh -c "echo '/dev/mmcblk0p2  /  auto  errors=remount-ro  0  1' >> /etc/fstab"
 sh -c "echo '/dev/mmcblk0p1  /boot/uboot  auto  defaults  0  2' >> /etc/fstab"
 
@@ -48,7 +50,7 @@ fi
 
 
 # Enable the gadget service
-if (systemctl -q is-enabled usbgadget-serial-eth-ms.service); then
+if (systemctl -q is-enabled usbgadget-serial.service); then
 	echo "Log: (chroot) usb gadget already enabled"
 else
 	echo "Log: (chroot) enabling usbgadget service"
