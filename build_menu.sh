@@ -22,6 +22,7 @@ setup_env () {
 	chmod +x scripts/build_kernel.sh
 	chmod +x scripts/build_debian-rootfs.sh
 	chmod +x scripts/build_overlays.sh
+	chmod +x scripts/chroot-interactive.sh
 	chmod +x scripts/make-image.sh
 	mkdir -p "${build_dir}"
 	scripts/setup_env.sh
