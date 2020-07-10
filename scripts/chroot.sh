@@ -25,8 +25,7 @@ apt-get update && apt-get install -y \
 	libtool \
 	pkg-config \
 	swig3.0 \
-	wget \
-	connman
+	wget
 
 
 # Install wheel now for other packages
