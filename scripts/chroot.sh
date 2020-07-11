@@ -4,11 +4,9 @@ export LC_ALL=C
 export LANGUAGE=C
 export LANG=C
 
-
 # Update and install stuff and things
 apt-get update && apt-get install -y \
 	ca-certificates \
-	sudo \
 	python3 \
 	python3-setuptools \
 	python3-pip \
@@ -96,10 +94,8 @@ wget https://github.com/linux4wilc/firmware/raw/master/wilc1000_wifi_firmware.bi
 mkdir -p /lib/firmware/mchp
 mv wilc1000_wifi_firmware.bin /lib/firmware/mchp
 
-
 # Install blinka and circuitpython packages
 pip3 install -r requirements.txt
-
 
 # Clean up
 apt-get clean
