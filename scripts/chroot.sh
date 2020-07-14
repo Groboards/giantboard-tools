@@ -25,6 +25,8 @@ apt-get update && apt-get install -y \
 	swig3.0 \
 	wget
 
+# Force update ca-certificates
+update-ca-certificates -f
 
 # Install wheel now for other packages
 pip3 install wheel
